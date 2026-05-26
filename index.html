@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spotify - OPM 2025</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <style>
+    body { font-family: 'Segoe UI', system-ui, sans-serif; }
+    .spotify-green { color: #1ed760; }
+    .card-hover:hover { transform: scale(1.05); transition: all 0.2s; }
+    .now-playing { background: linear-gradient(180deg, #1a1a1a, #121212); }
+  </style>
+</head>
+<body class="bg-black text-white min-h-screen pb-24">
+
+  <!-- Header -->
+  <div class="fixed top-0 left-0 right-0 bg-black z-50 px-4 py-3 flex items-center justify-between">
+    <div class="flex items-center gap-2">
+      <i class="fas fa-music text-green-500 text-2xl"></i>
+      <h1 class="text-xl font-bold">OPM 2025</h1>
+    </div>
+    <div class="flex gap-4 text-xl">
+      <i class="fas fa-bell"></i>
+      <i class="fas fa-user-circle"></i>
+    </div>
+  </div>
+
+  <div class="pt-16 px-4">
+    <!-- Greeting -->
+    <h2 class="text-3xl font-bold mt-6 mb-6">Good morning, Lycel</h2>
+
+    <!-- Quick Picks -->
+    <div class="grid grid-cols-2 gap-3 mb-8" id="quickPicks">
+      <!-- Populated by JS -->
+    </div>
+
+    <!-- Made for you -->
+    <h3 class="text-xl font-bold mb-4">Made for you</h3>
+    <div class="flex gap-4 overflow-x-auto pb-4 snap-x" id="madeForYou">
+      <!-- Populated by JS -->
+    </div>
+  </div>
+
+  <!-- Player -->
+  <div class="fixed bottom-0 left-0 right-0 bg-zinc-900 border-t border-zinc-700 p-3 now-playing" id="player">
+    <div class="flex items-center gap-3">
+      <img id="playerCover" src="https://picsum.photos/60" class="w-14 h-14 rounded-md object-cover">
+      <div class="flex-1 min-w-0">
+        <p id="playerTitle" class="font-medium truncate">Select a song</p>
+        <p id="playerArtist" class="text-sm text-zinc-400 truncate">Artist</p>
+      </div>
+      <button onclick="togglePlay()" id="playBtn" class="w-10 h-10 flex items-center justify-center bg-white text-black rounded-full">
+        <i class="fas fa-play"></i>
+      </button>
+    </div>
+
+    <!-- Audio Element -->
+    <audio id="audioPlayer" class="hidden"></audio>
+
+    <!-- Progress -->
+    <div class="mt-3 flex items-center gap-2 text-xs text-zinc-400">
+      <span id="currentTime">0:00</span>
+      <div class="flex-1 h-1 bg-zinc-700 rounded-full overflow-hidden">
+        <div id="progressBar" class="h-full w-0 bg-green-500 rounded-full"></div>
+      </div>
+      <span id="duration">0:00</span>
+    </div>
+  </div>
+
+  <script>
+    // Raw GitHub base URL
+    const baseURL = "https://raw.githubusercontent.com/webdevelopernas-dot/OPM-Sir-Don/main/OPM-2025/";
+
+    const songs = [
+      { title: "@Dilaw - Uhaw (Tayong Lahat)", artist: "Dilaw", file: "%40Dilaw%20%20-%20Uhaw%20(Tayong%20Lahat)%20(Lyrics).mp3" },
+      { title: "BINI - Blink Twice", artist: "BINI", file: "BINI%20%20'Blink%20Twice'%20Official%20Music%20Video.mp3" },
+      { title: "Ben&Ben - Lifetime", artist: "Ben&Ben", file: "Ben%26Ben%20-%20Lifetime%20%20Official%20Lyric%20Video.mp3" },
+      { title: "December Avenue - Bulong", artist: "December Avenue", file: "December%20Avenue%20-%20Bulong%20(Lyrics).mp3" },
+      { title: "Dilaw - Maki", artist: "Dilaw", file: "Dilaw%20-%20Maki%20(Official%20Music%20Video).mp3" },
+      { title: "Dionela - Sining", artist: "Dionela ft. Jay R", file: "Dionela%20-%20sining%20(Official%20Music%20Video)%20ft.%20Jay%20R.mp3" },
+      { title: "Arthur Nery - Isa Lang", artist: "Arthur Nery", file: "Isa%20lang%20-%20Arthur%20Nery%20(Official%20Lyric%20Video).mp3" },
+      { title: "Lola Amour - Raining in Manila", artist: "Lola Amour", file: "Lola%20Amour%20-%20Raining%20in%20Manila%20(Official%20Lyric%20Video).mp3" },
+      { title: "Zack Tabudlo - Habang Buhay", artist: "Zack Tabudlo", file: "Zack%20Tabudlo%20-%20Habang%20Buhay%20(Lyric%20Video).mp3" },
+      { title: "Cup of Joe - Multo", artist: "Cup of Joe", file: "Multo%20-%20Cup%20of%20Joe%20(Official%20Music%20Video).mp3" },
+    ];
+
+    let currentSongIndex = 0;
+    let isPlaying = false;
+    const audio = document.getElementById('audioPlayer');
+
+    // Render Quick Picks
+    function renderQuickPicks() {
+      const container = document.getElementById('quickPicks');
+      container.innerHTML = songs.slice(0, 6).map((song, index) => `
+        <div onclick="playSong(${index})" class="bg-zinc-800 rounded-lg p-2 flex items-center gap-3 card-hover cursor-pointer">
+          <img src="https://picsum.photos/60?random=${index}" class="w-12 h-12 rounded">
+          <div>
+            <p class="font-medium text-sm truncate">${song.title}</p>
+            <p class="text-xs text-zinc-400">${song.artist}</p>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Render Horizontal Scroll
+    function renderMadeForYou() {
+      const container = document.getElementById('madeForYou');
+      container.innerHTML = songs.map((song, index) => `
+        <div onclick="playSong(${index})" class="snap-start flex-shrink-0 w-40 cursor-pointer">
+          <img src="https://picsum.photos/200?random=${index}" class="w-40 h-40 rounded-lg object-cover shadow-lg">
+          <p class="mt-2 font-medium text-sm">${song.title}</p>
+          <p class="text-xs text-zinc-400">${song.artist}</p>
+        </div>
+      `).join('');
+    }
+
+    function playSong(index) {
+      currentSongIndex = index;
+      const song = songs[index];
+      const url = baseURL + song.file;
+
+      audio.src = url;
+      audio.play().then(() => {
+        isPlaying = true;
+        updatePlayerUI();
+      }).catch(err => alert("Cannot play: " + err.message));
+    }
+
+    function togglePlay() {
+      if (!audio.src) {
+        playSong(0);
+        return;
+      }
+      if (isPlaying) {
+        audio.pause();
+      } else {
+        audio.play();
+      }
+      isPlaying = !isPlaying;
+      updatePlayerUI();
+    }
+
+    function updatePlayerUI() {
+      const song = songs[currentSongIndex];
+      document.getElementById('playerTitle').textContent = song.title;
+      document.getElementById('playerArtist').textContent = song.artist;
+      
+      const playIcon = document.getElementById('playBtn').querySelector('i');
+      playIcon.className = isPlaying ? 'fas fa-pause' : 'fas fa-play';
+    }
+
+    // Audio time update
+    audio.addEventListener('timeupdate', () => {
+      if (audio.duration) {
+        const progress = (audio.currentTime / audio.duration) * 100;
+        document.getElementById('progressBar').style.width = `${progress}%`;
+        
+        document.getElementById('currentTime').textContent = formatTime(audio.currentTime);
+        document.getElementById('duration').textContent = formatTime(audio.duration);
+      }
+    });
+
+    function formatTime(seconds) {
+      const min = Math.floor(seconds / 60);
+      const sec = Math.floor(seconds % 60);
+      return `${min}:${sec < 10 ? '0' : ''}${sec}`;
+    }
+
+    // Initialize
+    renderQuickPicks();
+    renderMadeForYou();
+  </script>
+</body>
+</html>
