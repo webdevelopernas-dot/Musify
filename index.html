@@ -2,195 +2,427 @@
 <html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Spotify - OPM 2025</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+  <title>OPM 2025 — Mood & Vibes</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <style>
-    body { font-family: 'Segoe UI', system-ui, sans-serif; }
-    .card-hover:hover { transform: scale(1.05); transition: all 0.2s; }
-    .now-playing { background: linear-gradient(180deg, #1a1a1a, #121212); }
+    * {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
+      background: #0a0a0a;
+    }
+
+    /* smooth custom scroll for horizontal & vertical */
+    .overflow-x-auto::-webkit-scrollbar {
+      height: 4px;
+    }
+    .overflow-x-auto::-webkit-scrollbar-track {
+      background: #1f1f1f;
+      border-radius: 10px;
+    }
+    .overflow-x-auto::-webkit-scrollbar-thumb {
+      background: #3b3b3b;
+      border-radius: 10px;
+    }
+    
+    /* now playing glassmorphism layer */
+    .player-glass {
+      background: rgba(18, 18, 18, 0.96);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 -8px 25px rgba(0, 0, 0, 0.5);
+    }
+    
+    /* card hover & press animation */
+    .song-card {
+      transition: transform 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1), opacity 0.2s;
+    }
+    .song-card:active {
+      transform: scale(0.96);
+    }
+    
+    /* playlist quick pick shimmer effect */
+    .quick-pick-card {
+      background: linear-gradient(135deg, #1f2a1f 0%, #111811 100%);
+      transition: all 0.2s ease;
+    }
+    .quick-pick-card:active {
+      transform: scale(0.97);
+      background: #2a342a;
+    }
+    
+    /* animated progress knob */
+    #progressBar {
+      transition: width 0.05s linear;
+    }
+    
+    /* loading / pulse effect */
+    @keyframes pulseGlow {
+      0% { opacity: 0.6; }
+      100% { opacity: 1; }
+    }
+    .album-art {
+      background: #222;
+      box-shadow: 0 12px 20px -8px rgba(0,0,0,0.5);
+    }
+    
+    /* hide default audio controls */
+    audio {
+      display: none;
+    }
+
+    /* ripple effect for play button */
+    .play-ripple {
+      transition: all 0.15s ease;
+    }
+    .play-ripple:active {
+      transform: scale(0.92);
+    }
+    
+    /* truncate lines for song titles */
+    .line-clamp-2 {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* custom progress container */
+    .progress-container {
+      background: #2c2c2e;
+    }
   </style>
 </head>
-<body class="bg-black text-white min-h-screen pb-24">
+<body class="bg-black text-white min-h-screen pb-28 selection:bg-green-600/30">
 
-  <!-- Header -->
-  <div class="fixed top-0 left-0 right-0 bg-black z-50 px-4 py-3 flex items-center justify-between">
-    <div class="flex items-center gap-2">
-      <i class="fas fa-music text-green-500 text-2xl"></i>
-      <h1 class="text-xl font-bold">OPM 2025</h1>
+  <!-- floating gradient header with glossy effect -->
+  <div class="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-white/10 px-5 py-3 flex items-center justify-between">
+    <div class="flex items-center gap-2.5">
+      <div class="bg-gradient-to-tr from-green-500 to-emerald-400 p-1.5 rounded-full shadow-md">
+        <i class="fas fa-head-side-headphones text-black text-sm"></i>
+      </div>
+      <h1 class="text-2xl font-extrabold tracking-tight bg-gradient-to-r from-white to-green-300 bg-clip-text text-transparent">OPM 2025</h1>
     </div>
-    <div class="flex gap-4 text-xl">
-      <i class="fas fa-bell"></i>
-      <i class="fas fa-user-circle"></i>
+    <div class="flex gap-5 text-zinc-300">
+      <div class="relative">
+        <i class="fas fa-bell text-lg"></i>
+        <span class="absolute -top-1 -right-2 w-2 h-2 bg-green-500 rounded-full"></span>
+      </div>
+      <i class="fas fa-user-circle text-2xl text-green-400/80"></i>
     </div>
   </div>
 
-  <div class="pt-16 px-4">
-    <h2 class="text-3xl font-bold mt-6 mb-6">Good morning, Lycel</h2>
+  <main class="pt-20 px-4 pb-6">
+    <!-- personalized hero -->
+    <div class="mt-2 mb-6 flex items-baseline justify-between flex-wrap">
+      <div>
+        <span class="text-zinc-400 text-sm font-medium tracking-wide">WELCOME BACK</span>
+        <h2 class="text-3xl font-black mt-0.5 tracking-tight">Lycel ✨</h2>
+      </div>
+      <div class="bg-white/5 backdrop-blur-sm px-3 py-1.5 rounded-full text-xs font-medium text-green-400 border border-white/10">
+        <i class="fas fa-chart-simple mr-1 text-[11px]"></i> 46 hits
+      </div>
+    </div>
 
-    <!-- Quick Picks -->
-    <div class="grid grid-cols-2 gap-3 mb-8" id="quickPicks"></div>
+    <!-- Quick Picks: dynamic mood grid (based on top trending feel) -->
+    <div class="mb-9">
+      <div class="flex justify-between items-center mb-3">
+        <h3 class="text-lg font-bold tracking-wide flex items-center gap-2">
+          <i class="fas fa-bolt text-green-500 text-sm"></i> Quick Picks
+        </h3>
+        <span class="text-[11px] text-zinc-500 uppercase tracking-wider">for you</span>
+      </div>
+      <div class="grid grid-cols-2 gap-3" id="quickPicks"></div>
+    </div>
 
-    <!-- All Songs -->
-    <h3 class="text-xl font-bold mb-4">All Songs (46)</h3>
-    <div class="flex gap-4 overflow-x-auto pb-4 snap-x" id="allSongs"></div>
-  </div>
+    <!-- All Songs section with improved horizontal showcase -->
+    <div>
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-xl font-bold tracking-tight flex items-center gap-2">
+          <i class="fas fa-album-collection text-green-400 text-base"></i> All Songs
+        </h3>
+        <span class="text-xs text-zinc-500 bg-white/5 px-2 py-1 rounded-full">46 tracks</span>
+      </div>
+      <div class="flex gap-4 overflow-x-auto pb-3 snap-x scroll-smooth" id="allSongs"></div>
+    </div>
+  </main>
 
-  <!-- Player -->
-  <div class="fixed bottom-0 left-0 right-0 bg-zinc-900 border-t border-zinc-700 p-3 now-playing">
+  <!-- Modernized Now Playing Bar with advanced micro-interactions -->
+  <div class="fixed bottom-0 left-0 right-0 z-50 player-glass rounded-t-2xl px-4 pt-3 pb-2 shadow-2xl transition-all duration-300">
     <div class="flex items-center gap-3">
-      <img id="playerCover" src="https://picsum.photos/60" class="w-14 h-14 rounded-md object-cover">
-      <div class="flex-1 min-w-0">
-        <p id="playerTitle" class="font-medium truncate">Select a song</p>
-        <p id="playerArtist" class="text-sm text-zinc-400 truncate">Artist</p>
+      <div class="relative">
+        <img id="playerCover" src="https://picsum.photos/id/100/64/64" class="w-14 h-14 rounded-xl object-cover shadow-lg ring-2 ring-white/10 transition-all duration-200">
+        <div class="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border border-black"></div>
       </div>
-      <div class="flex items-center gap-4">
-        <button onclick="prevSong()" class="text-xl text-zinc-400 hover:text-white"><i class="fas fa-backward"></i></button>
-        <button onclick="togglePlay()" id="playBtn" class="w-11 h-11 flex items-center justify-center bg-white text-black rounded-full">
-          <i class="fas fa-play"></i>
+      <div class="flex-1 min-w-0">
+        <p id="playerTitle" class="font-semibold text-base truncate tracking-tight">Select a song</p>
+        <p id="playerArtist" class="text-xs text-zinc-400 truncate flex items-center gap-1">
+          <i class="fas fa-microphone-alt text-[9px] text-green-600"></i> Artist
+        </p>
+      </div>
+      <div class="flex items-center gap-3">
+        <button onclick="prevSong()" class="w-9 h-9 flex items-center justify-center rounded-full bg-white/5 active:bg-white/10 transition text-zinc-200">
+          <i class="fas fa-backward-step text-base"></i>
         </button>
-        <button onclick="nextSong()" class="text-xl text-zinc-400 hover:text-white"><i class="fas fa-forward"></i></button>
+        <button onclick="togglePlay()" id="playBtn" class="play-ripple w-11 h-11 flex items-center justify-center bg-gradient-to-br from-green-500 to-emerald-600 text-black rounded-full shadow-lg shadow-green-900/30 active:scale-95 transition-all">
+          <i class="fas fa-play text-lg ml-0.5"></i>
+        </button>
+        <button onclick="nextSong()" class="w-9 h-9 flex items-center justify-center rounded-full bg-white/5 active:bg-white/10 transition text-zinc-200">
+          <i class="fas fa-forward-step text-base"></i>
+        </button>
       </div>
     </div>
 
-    <audio id="audioPlayer" class="hidden"></audio>
+    <audio id="audioPlayer" preload="metadata"></audio>
 
-    <div class="mt-3 flex items-center gap-2 text-xs text-zinc-400">
-      <span id="currentTime">0:00</span>
-      <div class="flex-1 h-1 bg-zinc-700 rounded-full overflow-hidden cursor-pointer" onclick="seek(event)">
-        <div id="progressBar" class="h-full w-0 bg-green-500 rounded-full"></div>
+    <div class="mt-3 flex items-center gap-2 text-[11px] font-mono text-zinc-400">
+      <span id="currentTime" class="w-8 text-right">0:00</span>
+      <div class="flex-1 h-1.5 bg-zinc-800 rounded-full overflow-hidden cursor-pointer progress-container" onclick="seek(event)">
+        <div id="progressBar" class="h-full w-0 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full relative"></div>
       </div>
-      <span id="duration">0:00</span>
+      <span id="duration" class="w-8">0:00</span>
+    </div>
+    
+    <!-- mini player extra vibe -->
+    <div class="flex justify-center gap-4 mt-1.5 text-[11px] text-zinc-500">
+      <span><i class="far fa-heart mr-1 text-green-500/70"></i> likes</span>
+      <span><i class="fas fa-waveform mr-1"></i> now playing</span>
     </div>
   </div>
 
   <script>
+    // ======================== ENHANCED MOBILE AUDIO PLAYER ==========================
     const baseURL = "https://raw.githubusercontent.com/webdevelopernas-dot/OPM-Sir-Don/main/OPM-2025/";
 
     const songs = [
-      { title: "@Dilaw - Uhaw (Tayong Lahat)", artist: "Dilaw", file: "%40Dilaw%20%20-%20Uhaw%20(Tayong%20Lahat)%20(Lyrics).mp3" },
-      { title: "BINI - Blink Twice", artist: "BINI", file: "BINI%20%20'Blink%20Twice'%20Official%20Music%20Video.mp3" },
-      { title: "BINI - Bikini", artist: "BINI", file: "BINI%20Bikini%20Official%20Lyric%20Video.mp3" },
-      { title: "Ben&Ben - Lifetime", artist: "Ben&Ben", file: "Ben%26Ben%20-%20Lifetime%20%20Official%20Lyric%20Video.mp3" },
-      { title: "Ben&Ben - Saranggola", artist: "Ben&Ben", file: "Ben%26Ben%20-%20Saranggola%20%20Official%20Lyric%20Video.mp3" },
-      { title: "Brent Faiyaz - Best Time", artist: "Brent Faiyaz", file: "Brent%20Faiyaz%20-%20Best%20Time%20(Lyrics).mp3" },
-      { title: "Earl Agustin - Dalangin", artist: "Earl Agustin", file: "Dalangin%20by%20Earl%20Agustin%20(Lyrics).mp3" },
-      { title: "December Avenue - Bulong", artist: "December Avenue", file: "December%20Avenue%20-%20Bulong%20(Lyrics).mp3" },
-      { title: "December Avenue - Saksi Ang Langit", artist: "December Avenue", file: "December%20Avenue%20-%20Saksi%20Ang%20Langit.mp3" },
-      { title: "Dilaw - Maki", artist: "Dilaw", file: "Dilaw%20-%20Maki%20(Official%20Music%20Video).mp3" },
-      { title: "Dionela - Marilag", artist: "Dionela", file: "Dionela%20-%20Marilag%20(Official%20Lyric%20Video).mp3" },
-      { title: "Dionela - Oksihina", artist: "Dionela", file: "Dionela%20-%20Oksihina%20(Lyrics).mp3" },
-      { title: "Dionela - Sining", artist: "Dionela ft. Jay R", file: "Dionela%20-%20sining%20(Official%20Music%20Video)%20ft.%20Jay%20R.mp3" },
-      { title: "Eliza Maturan - Museo", artist: "Eliza Maturan", file: "Eliza%20Maturan%20-%20Museo%20(Official%20Lyric%20Video).mp3" },
-      { title: "Wilbert Ross - Ginintuan Tanawin", artist: "Wilbert Ross", file: "Ginintuan%20Tanawin%20-%20Wilbert%20Ross%20(LYRICS)%20%20OPM%20Love%20Song%202025.mp3" },
-      { title: "Gloc-9 - Halimaw", artist: "Gloc-9", file: "Gloc-9%20feat.%20Abaddon%2C%20Smugglaz%2C%20Hero%20-%20Halimaw%20(Official%20Lyric%20Video).mp3" },
-      { title: "HELLMERRY - My Day", artist: "HELLMERRY", file: "HELLMERRY%20-%20My%20Day%20(Lyrics).mp3" },
-      { title: "IV Of Spades - Kabisado", artist: "IV Of Spades", file: "IV%20Of%20Spades%20-%20Kabisado%20(Lyrics).mp3" },
-      { title: "Arthur Nery - Isa Lang", artist: "Arthur Nery", file: "Isa%20lang%20-%20Arthur%20Nery%20(Official%20Lyric%20Video).mp3" },
-      { title: "Janice - Dilaw", artist: "Janice", file: "Janice%20-%20Dilaw%20(Lyrics).mp3" },
-      { title: "Jolianne & Arthur Nery - Palayo Sa Mundo", artist: "Jolianne, Arthur Nery", file: "Jolianne%2C%20Arthur%20Nery%20%20Palayo%20Sa%20Mundo%20(Official%20Lyric%20Video).mp3" },
-      { title: "Kenaniah - Bahala Na", artist: "Kenaniah", file: "Kenaniah%20-%20Bahala%20Na%20(Official%20Lyric%20Video).mp3" },
-      { title: "Le John - Naiilang", artist: "Le John", file: "Le%20John%20-%20Naiilang%20(Official%20Lyric%20Video).mp3" },
-      { title: "Kyle Raphael - Libu-Libong Buwan", artist: "Kyle Raphael", file: "Libu-Libong%20Buwan%20(Uuwian)%20-%20Kyle%20Raphael%20(Lyric%20Video).mp3" },
-      { title: "Lola Amour - Raining in Manila", artist: "Lola Amour", file: "Lola%20Amour%20-%20Raining%20in%20Manila%20(Official%20Lyric%20Video).mp3" },
+      { title: "Uhaw (Tayong Lahat)", artist: "Dilaw", file: "%40Dilaw%20%20-%20Uhaw%20(Tayong%20Lahat)%20(Lyrics).mp3" },
+      { title: "Blink Twice", artist: "BINI", file: "BINI%20%20'Blink%20Twice'%20Official%20Music%20Video.mp3" },
+      { title: "Bikini", artist: "BINI", file: "BINI%20Bikini%20Official%20Lyric%20Video.mp3" },
+      { title: "Lifetime", artist: "Ben&Ben", file: "Ben%26Ben%20-%20Lifetime%20%20Official%20Lyric%20Video.mp3" },
+      { title: "Saranggola", artist: "Ben&Ben", file: "Ben%26Ben%20-%20Saranggola%20%20Official%20Lyric%20Video.mp3" },
+      { title: "Best Time", artist: "Brent Faiyaz", file: "Brent%20Faiyaz%20-%20Best%20Time%20(Lyrics).mp3" },
+      { title: "Dalangin", artist: "Earl Agustin", file: "Dalangin%20by%20Earl%20Agustin%20(Lyrics).mp3" },
+      { title: "Bulong", artist: "December Avenue", file: "December%20Avenue%20-%20Bulong%20(Lyrics).mp3" },
+      { title: "Saksi Ang Langit", artist: "December Avenue", file: "December%20Avenue%20-%20Saksi%20Ang%20Langit.mp3" },
+      { title: "Maki", artist: "Dilaw", file: "Dilaw%20-%20Maki%20(Official%20Music%20Video).mp3" },
+      { title: "Marilag", artist: "Dionela", file: "Dionela%20-%20Marilag%20(Official%20Lyric%20Video).mp3" },
+      { title: "Oksihina", artist: "Dionela", file: "Dionela%20-%20Oksihina%20(Lyrics).mp3" },
+      { title: "Sining", artist: "Dionela ft. Jay R", file: "Dionela%20-%20sining%20(Official%20Music%20Video)%20ft.%20Jay%20R.mp3" },
+      { title: "Museo", artist: "Eliza Maturan", file: "Eliza%20Maturan%20-%20Museo%20(Official%20Lyric%20Video).mp3" },
+      { title: "Ginintuan Tanawin", artist: "Wilbert Ross", file: "Ginintuan%20Tanawin%20-%20Wilbert%20Ross%20(LYRICS)%20%20OPM%20Love%20Song%202025.mp3" },
+      { title: "Halimaw", artist: "Gloc-9", file: "Gloc-9%20feat.%20Abaddon%2C%20Smugglaz%2C%20Hero%20-%20Halimaw%20(Official%20Lyric%20Video).mp3" },
+      { title: "My Day", artist: "HELLMERRY", file: "HELLMERRY%20-%20My%20Day%20(Lyrics).mp3" },
+      { title: "Kabisado", artist: "IV Of Spades", file: "IV%20Of%20Spades%20-%20Kabisado%20(Lyrics).mp3" },
+      { title: "Isa Lang", artist: "Arthur Nery", file: "Isa%20lang%20-%20Arthur%20Nery%20(Official%20Lyric%20Video).mp3" },
+      { title: "Dilaw (Janice)", artist: "Janice", file: "Janice%20-%20Dilaw%20(Lyrics).mp3" },
+      { title: "Palayo Sa Mundo", artist: "Jolianne, Arthur Nery", file: "Jolianne%2C%20Arthur%20Nery%20%20Palayo%20Sa%20Mundo%20(Official%20Lyric%20Video).mp3" },
+      { title: "Bahala Na", artist: "Kenaniah", file: "Kenaniah%20-%20Bahala%20Na%20(Official%20Lyric%20Video).mp3" },
+      { title: "Naiilang", artist: "Le John", file: "Le%20John%20-%20Naiilang%20(Official%20Lyric%20Video).mp3" },
+      { title: "Libu-Libong Buwan", artist: "Kyle Raphael", file: "Libu-Libong%20Buwan%20(Uuwian)%20-%20Kyle%20Raphael%20(Lyric%20Video).mp3" },
+      { title: "Raining in Manila", artist: "Lola Amour", file: "Lola%20Amour%20-%20Raining%20in%20Manila%20(Official%20Lyric%20Video).mp3" },
       { title: "MOON (feat. Flow G)", artist: "Flow G", file: "MOON%20(feat.%20Flow%20G).mp3" },
-      { title: "KD Estrada - Mahal Ba Kita", artist: "KD Estrada", file: "Mahal%20Ba%20Kita%20-%20KD%20Estrada%20(Lyrics)%20%20From%20Bola%20Bola%20OST.mp3" },
-      { title: "Maki - Kahel Na Langit", artist: "Maki", file: "Maki%20-%20kahel%20na%20langit%20(Lyrics).mp3" },
-      { title: "Cup of Joe - Misteryoso", artist: "Cup of Joe", file: "Misteryoso%20-%20Cup%20of%20Joe%20(Official%20Lyric%20Video).mp3" },
-      { title: "Cup of Joe - Multo", artist: "Cup of Joe", file: "Multo%20-%20Cup%20of%20Joe%20(Official%20Music%20Video).mp3" },
-      { title: "One Click Straight - Telepono", artist: "One Click Straight", file: "ONE%20CLICK%20STRAIGHT%20-%20Telepono%20(Official%20Music%20Video)%20ft.%20Clara%20Benin.mp3" },
-      { title: "TJ Monterde - Palagi", artist: "TJ Monterde", file: "PALAGI%20-%20TJ%20Monterde%20%20OFFICIAL%20MUSIC%20VIDEO.mp3" },
-      { title: "Arthur Nery - Pagsamo", artist: "Arthur Nery", file: "Pagsamo%20-%20Arthur%20Nery%20(Official%20Lyric%20Visualizer).mp3" },
-      { title: "Cup of Joe - Pahina", artist: "Cup of Joe", file: "Pahina%20-%20Cup%20of%20Joe%20(Official%20Audio).mp3" },
-      { title: "nicole - Panaginip", artist: "nicole", file: "Panaginip%20-%20nicole%20(Lyrics).mp3" },
-      { title: "Rob Deniel - Miss Miss", artist: "Rob Deniel", file: "Rob%20Deniel%20-%20Miss%20Miss.mp3" },
-      { title: "SB19 - DUNGKA!", artist: "SB19", file: "SB19%20'DUNGKA!'%20Lyric%20Video.mp3" },
-      { title: "Amiel Sol - Sa Bawat Sandali", artist: "Amiel Sol", file: "Sa%20Bawat%20Sandali%20-%20Amiel%20Sol%20(Official%20Music%20Video).mp3" },
-      { title: "Skusta Clee - Kalimutan Ka", artist: "Skusta Clee", file: "Skusta%20Clee%20-%20Kalimutan%20Ka%20(Official%20Music%20Video).mp3" },
+      { title: "Mahal Ba Kita", artist: "KD Estrada", file: "Mahal%20Ba%20Kita%20-%20KD%20Estrada%20(Lyrics)%20%20From%20Bola%20Bola%20OST.mp3" },
+      { title: "Kahel Na Langit", artist: "Maki", file: "Maki%20-%20kahel%20na%20langit%20(Lyrics).mp3" },
+      { title: "Misteryoso", artist: "Cup of Joe", file: "Misteryoso%20-%20Cup%20of%20Joe%20(Official%20Lyric%20Video).mp3" },
+      { title: "Multo", artist: "Cup of Joe", file: "Multo%20-%20Cup%20of%20Joe%20(Official%20Music%20Video).mp3" },
+      { title: "Telepono", artist: "One Click Straight", file: "ONE%20CLICK%20STRAIGHT%20-%20Telepono%20(Official%20Music%20Video)%20ft.%20Clara%20Benin.mp3" },
+      { title: "Palagi", artist: "TJ Monterde", file: "PALAGI%20-%20TJ%20Monterde%20%20OFFICIAL%20MUSIC%20VIDEO.mp3" },
+      { title: "Pagsamo", artist: "Arthur Nery", file: "Pagsamo%20-%20Arthur%20Nery%20(Official%20Lyric%20Visualizer).mp3" },
+      { title: "Pahina", artist: "Cup of Joe", file: "Pahina%20-%20Cup%20of%20Joe%20(Official%20Audio).mp3" },
+      { title: "Panaginip", artist: "nicole", file: "Panaginip%20-%20nicole%20(Lyrics).mp3" },
+      { title: "Miss Miss", artist: "Rob Deniel", file: "Rob%20Deniel%20-%20Miss%20Miss.mp3" },
+      { title: "DUNGKA!", artist: "SB19", file: "SB19%20'DUNGKA!'%20Lyric%20Video.mp3" },
+      { title: "Sa Bawat Sandali", artist: "Amiel Sol", file: "Sa%20Bawat%20Sandali%20-%20Amiel%20Sol%20(Official%20Music%20Video).mp3" },
+      { title: "Kalimutan Ka", artist: "Skusta Clee", file: "Skusta%20Clee%20-%20Kalimutan%20Ka%20(Official%20Music%20Video).mp3" },
       { title: "Tahanan (Live)", artist: "El Manu", file: "Tahanan%20(Live%20at%20The%20Cozy%20Cove)%20-%20El%20Manu%2C%20Jessy%20Kang%2C%20Jason%20Marvin.mp3" },
-      { title: "Earl Agustin - Tibok", artist: "Earl Agustin", file: "Tibok%20-%20Earl%20Agustin%20(Official%20Music%20Video).mp3" },
-      { title: "Cup of Joe & Janine Teñoso - Tingin", artist: "Cup of Joe", file: "Tingin%20by%20Cup%20of%20Joe%20and%20Janine%20Te%C3%B1oso%20(Lyrics).mp3" },
-      { title: "Wakas", artist: "Unknown", file: "Wakas.mp3" },
-      { title: "Zack Tabudlo - Habang Buhay", artist: "Zack Tabudlo", file: "Zack%20Tabudlo%20-%20Habang%20Buhay%20(Lyric%20Video).mp3" },
-      { title: "fitterkarma - Kalapastangan", artist: "fitterkarma", file: "fitterkarma%20-%20Kalapastangan%20(Lyrics).mp3" },
-      { title: "iluna & Frank Ely - Paano na, Sinta", artist: "iluna, Frank Ely", file: "iluna%2C%20Frank%20Ely%20-%20Paano%20na%2C%20Sinta_%20(Lyric%20Video).mp3" },
+      { title: "Tibok", artist: "Earl Agustin", file: "Tibok%20-%20Earl%20Agustin%20(Official%20Music%20Video).mp3" },
+      { title: "Tingin", artist: "Cup of Joe & Janine", file: "Tingin%20by%20Cup%20of%20Joe%20and%20Janine%20Te%C3%B1oso%20(Lyrics).mp3" },
+      { title: "Wakas", artist: "Sunkissed Lola", file: "Wakas.mp3" },
+      { title: "Habang Buhay", artist: "Zack Tabudlo", file: "Zack%20Tabudlo%20-%20Habang%20Buhay%20(Lyric%20Video).mp3" },
+      { title: "Kalapastangan", artist: "fitterkarma", file: "fitterkarma%20-%20Kalapastangan%20(Lyrics).mp3" },
+      { title: "Paano na, Sinta", artist: "iluna, Frank Ely", file: "iluna%2C%20Frank%20Ely%20-%20Paano%20na%2C%20Sinta_%20(Lyric%20Video).mp3" },
     ];
+    
+    // Helper: get consistent random but nice cover arts using unsplash gradient style
+    const getCoverArt = (seed) => `https://picsum.photos/id/${(seed % 150) + 10}/300/300`;
 
     let currentSongIndex = 0;
     let isPlaying = false;
     const audio = document.getElementById('audioPlayer');
-
-    audio.addEventListener('ended', () => nextSong());
-
-    function renderSongs() {
+    const playBtnIcon = document.querySelector('#playBtn i');
+    
+    // Quick picks curated from trending OPM (enhanced)
+    const quickPickSongs = [
+      { title: "Sining", artist: "Dionela ft. Jay R", index: 12 },
+      { title: "Palagi", artist: "TJ Monterde", index: 31 },
+      { title: "Uhaw", artist: "Dilaw", index: 0 },
+      { title: "Raining in Manila", artist: "Lola Amour", index: 24 }
+    ];
+    
+    function renderQuickPicks() {
+      const container = document.getElementById('quickPicks');
+      container.innerHTML = quickPickSongs.map(pick => {
+        const song = songs[pick.index];
+        return `
+          <div onclick="playSong(${pick.index})" class="quick-pick-card rounded-2xl p-3 flex items-center gap-3 shadow-md active:scale-[0.98] transition-all cursor-pointer">
+            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-green-800/40 to-emerald-900/30 flex items-center justify-center overflow-hidden shadow-inner">
+              <i class="fas fa-play text-green-400 text-xs"></i>
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="font-semibold text-sm truncate">${song.title}</p>
+              <p class="text-[11px] text-green-300/70 truncate">${song.artist}</p>
+            </div>
+            <i class="fas fa-music text-[10px] text-zinc-500"></i>
+          </div>
+        `;
+      }).join('');
+    }
+    
+    function renderAllSongs() {
       const container = document.getElementById('allSongs');
-      container.innerHTML = songs.map((song, index) => `
-        <div onclick="playSong(${index})" class="snap-start flex-shrink-0 w-40 cursor-pointer">
-          <img src="https://picsum.photos/200?random=${index}" class="w-40 h-40 rounded-lg object-cover shadow-lg">
-          <p class="mt-2 font-medium text-sm line-clamp-2">${song.title}</p>
-          <p class="text-xs text-zinc-400">${song.artist}</p>
+      container.innerHTML = songs.map((song, idx) => `
+        <div onclick="playSong(${idx})" class="snap-start flex-shrink-0 w-40 cursor-pointer song-card transition-transform active:scale-95">
+          <div class="relative overflow-hidden rounded-xl shadow-2xl">
+            <img src="${getCoverArt(idx)}" class="w-40 h-40 object-cover rounded-xl album-art" alt="album art">
+            <div class="absolute inset-0 bg-black/20 rounded-xl opacity-0 hover:opacity-100 transition group-hover:bg-black/30"></div>
+          </div>
+          <div class="mt-2.5">
+            <p class="font-semibold text-sm leading-tight line-clamp-2">${song.title}</p>
+            <p class="text-xs text-zinc-400 mt-0.5 flex items-center gap-1"><i class="fas fa-user-alt text-[8px] text-green-600"></i> ${song.artist}</p>
+          </div>
         </div>
       `).join('');
     }
-
+    
+    function updatePlayerUI() {
+      const song = songs[currentSongIndex];
+      document.getElementById('playerTitle').textContent = song.title;
+      document.getElementById('playerArtist').innerHTML = `<i class="fas fa-microphone-alt text-[9px] text-green-600"></i> ${song.artist}`;
+      document.getElementById('playerCover').src = getCoverArt(currentSongIndex);
+      const playButtonIcon = document.querySelector('#playBtn i');
+      if (playButtonIcon) {
+        playButtonIcon.className = isPlaying ? 'fas fa-pause text-lg' : 'fas fa-play text-lg ml-0.5';
+      }
+    }
+    
     function playSong(index) {
+      if (index === currentSongIndex && audio.src && !audio.paused) {
+        // same song playing, just keep
+        return;
+      }
       currentSongIndex = index;
       const song = songs[index];
-      audio.src = baseURL + song.file;
+      const encodedFile = song.file;
+      audio.src = baseURL + encodedFile;
+      audio.load();
       audio.play().then(() => {
         isPlaying = true;
         updatePlayerUI();
-      }).catch(err => alert("Cannot play this song: " + err.message));
+      }).catch(err => {
+        console.warn("Playback error:", err);
+        isPlaying = false;
+        updatePlayerUI();
+        // Fallback: if network error, show simple alert
+        alert("Unable to play track. Check connection or file link.");
+      });
     }
-
+    
     function togglePlay() {
-      if (!audio.src) return playSong(0);
-      isPlaying ? audio.pause() : audio.play();
-      isPlaying = !isPlaying;
+      if (!audio.src) {
+        playSong(0);
+        return;
+      }
+      if (isPlaying) {
+        audio.pause();
+        isPlaying = false;
+      } else {
+        audio.play().catch(e => {
+          console.log(e);
+          playSong(currentSongIndex);
+        });
+        isPlaying = true;
+      }
       updatePlayerUI();
     }
-
+    
     function nextSong() {
       currentSongIndex = (currentSongIndex + 1) % songs.length;
       playSong(currentSongIndex);
     }
-
+    
     function prevSong() {
       currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
       playSong(currentSongIndex);
     }
-
-    function updatePlayerUI() {
-      const song = songs[currentSongIndex];
-      document.getElementById('playerTitle').textContent = song.title;
-      document.getElementById('playerArtist').textContent = song.artist;
-      document.getElementById('playBtn').querySelector('i').className = isPlaying ? 'fas fa-pause' : 'fas fa-play';
-    }
-
+    
     audio.addEventListener('timeupdate', () => {
-      if (audio.duration) {
-        const progress = (audio.currentTime / audio.duration) * 100;
-        document.getElementById('progressBar').style.width = `${progress}%`;
+      if (audio.duration && !isNaN(audio.duration)) {
+        const percent = (audio.currentTime / audio.duration) * 100;
+        document.getElementById('progressBar').style.width = `${percent}%`;
         document.getElementById('currentTime').textContent = formatTime(audio.currentTime);
         document.getElementById('duration').textContent = formatTime(audio.duration);
       }
     });
-
+    
+    audio.addEventListener('loadedmetadata', () => {
+      document.getElementById('duration').textContent = formatTime(audio.duration);
+    });
+    
+    audio.addEventListener('ended', () => {
+      nextSong();
+    });
+    
+    audio.addEventListener('play', () => {
+      isPlaying = true;
+      updatePlayerUI();
+    });
+    
+    audio.addEventListener('pause', () => {
+      isPlaying = false;
+      updatePlayerUI();
+    });
+    
     function seek(e) {
+      if (!audio.duration) return;
       const rect = e.currentTarget.getBoundingClientRect();
-      const percent = (e.clientX - rect.left) / rect.width;
+      let clickX = e.clientX - rect.left;
+      if (clickX < 0) clickX = 0;
+      if (clickX > rect.width) clickX = rect.width;
+      const percent = clickX / rect.width;
       audio.currentTime = percent * audio.duration;
     }
-
+    
     function formatTime(seconds) {
-      const min = Math.floor(seconds / 60);
-      const sec = Math.floor(seconds % 60);
-      return `${min}:${sec < 10 ? '0' : ''}${sec}`;
+      if (isNaN(seconds)) return "0:00";
+      const mins = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60);
+      return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
     }
-
-    // Initialize
-    renderSongs();
+    
+    // initial load: default state
+    renderQuickPicks();
+    renderAllSongs();
+    
+    // Set default cover nicely
+    document.getElementById('playerCover').src = "https://picsum.photos/id/29/300/300";
+    
+    // optional: if audio errors on first interaction, fix accordingly
+    window.playSong = playSong;
+    window.togglePlay = togglePlay;
+    window.nextSong = nextSong;
+    window.prevSong = prevSong;
+    window.seek = seek;
+    
+    // small extra: apply body listener for mobile volume fix (just safe)
+    document.body.addEventListener('touchstart', () => {}, { passive: true });
+    
+    // for user experience, inform that clicking song starts playback
+    console.log("OPM 2025 — mobile ready");
   </script>
 </body>
 </html>
+```
