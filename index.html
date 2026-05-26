@@ -5,85 +5,218 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
   <title>OPM 2025 — Mood & Vibes</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <style>
-    * {
-      -webkit-tap-highlight-color: transparent;
+    :root {
+      --green-glow: rgba(52, 211, 153, 0.25);
+      --glass-bg: rgba(15, 15, 20, 0.72);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --glass-shine: rgba(255, 255, 255, 0.04);
+      --accent: #34d399;
+      --accent-dim: #10b981;
+    }
+
+    * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
+
+    html, body {
+      overscroll-behavior: none;
     }
 
     body {
-      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
-      background: #0a0a0a;
+      font-family: 'Space Grotesk', system-ui, sans-serif;
+      background: #3a50a9;
+      min-height: 100dvh;
     }
 
-    /* smooth custom scroll for horizontal & vertical */
-    .overflow-x-auto::-webkit-scrollbar {
-      height: 4px;
+    /* ── Animated mesh background ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background:
+        radial-gradient(ellipse 60% 40% at 20% 10%, rgba(52,211,153,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 40% at 80% 80%, rgba(16,185,129,0.09) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 30% at 50% 50%, rgba(6,182,212,0.05) 0%, transparent 60%);
+      pointer-events: none;
     }
-    .overflow-x-auto::-webkit-scrollbar-track {
-      background: #1f1f1f;
-      border-radius: 10px;
+
+    /* ── Noise grain overlay ── */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      opacity: 0.028;
+      pointer-events: none;
+      background-image: url("images/musify.png");
+      background-repeat: repeat;
+      background-size: 128px;
     }
-    .overflow-x-auto::-webkit-scrollbar-thumb {
-      background: #3b3b3b;
-      border-radius: 10px;
+
+    main, .fixed { z-index: 1; }
+    .fixed { z-index: 50 !important; }
+
+    /* ── Glass utility ── */
+    .glass {
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid var(--glass-border);
     }
-    
-    /* now playing glassmorphism layer */
-    .player-glass {
-      background: rgba(18, 18, 18, 0.96);
-      backdrop-filter: blur(12px);
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-      box-shadow: 0 -8px 25px rgba(0, 0, 0, 0.5);
+
+    .glass-card {
+      background: rgba(255,255,255,0.04);
+      backdrop-filter: blur(12px) saturate(140%);
+      -webkit-backdrop-filter: blur(12px) saturate(140%);
+      border: 1px solid rgba(255,255,255,0.07);
+      position: relative;
+      overflow: hidden;
     }
-    
-    /* card hover & press animation */
-    .song-card {
-      transition: transform 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1), opacity 0.2s;
+
+    /* Inner shine */
+    .glass-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+      pointer-events: none;
     }
-    .song-card:active {
-      transform: scale(0.96);
+
+    /* ── Header ── */
+    .header-glass {
+      background: rgba(6, 8, 16, 0.78);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      box-shadow: 0 1px 0 rgba(255,255,255,0.04), 0 8px 32px rgba(0,0,0,0.4);
     }
-    
-    /* playlist quick pick shimmer effect */
+
+    /* ── Logo ── */
+    .logo-mark {
+      position: relative;
+      width: 38px;
+      height: 38px;
+      flex-shrink: 0;
+    }
+
+    .logo-text {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+
+    /* ── Quick pick cards ── */
     .quick-pick-card {
-      background: linear-gradient(135deg, #1f2a1f 0%, #111811 100%);
-      transition: all 0.2s ease;
+      background: rgba(255,255,255,0.04);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 18px;
+      transition: all 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      position: relative;
+      overflow: hidden;
     }
+
+    .quick-pick-card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.10), transparent);
+    }
+
     .quick-pick-card:active {
       transform: scale(0.97);
-      background: #2a342a;
-    }
-    
-    /* animated progress knob */
-    #progressBar {
-      transition: width 0.05s linear;
-    }
-    
-    /* loading / pulse effect */
-    @keyframes pulseGlow {
-      0% { opacity: 0.6; }
-      100% { opacity: 1; }
-    }
-    .album-art {
-      background: #222;
-      box-shadow: 0 12px 20px -8px rgba(0,0,0,0.5);
-    }
-    
-    /* hide default audio controls */
-    audio {
-      display: none;
+      background: rgba(52,211,153,0.07);
+      border-color: rgba(52,211,153,0.18);
     }
 
-    /* ripple effect for play button */
-    .play-ripple {
+    /* ── Song card ── */
+    .song-card {
+      transition: transform 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    }
+    .song-card:active { transform: scale(0.95); }
+
+    .album-wrapper {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.06);
+    }
+
+    .album-wrapper::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 16px;
+      background: linear-gradient(160deg, rgba(255,255,255,0.06) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    /* ── Progress ── */
+    #progressBar { transition: width 0.05s linear; }
+    .progress-track {
+      background: rgba(255,255,255,0.08);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    /* ── Player glass ── */
+    .player-glass {
+      background: rgba(6, 8, 16, 0.88);
+      backdrop-filter: blur(28px) saturate(200%);
+      -webkit-backdrop-filter: blur(28px) saturate(200%);
+      border-top: 1px solid rgba(255,255,255,0.09);
+      box-shadow: 0 -12px 40px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.05);
+    }
+
+    /* ── Play button ── */
+    .play-btn {
+      background: linear-gradient(135deg, #34d399 0%, #059669 100%);
+      box-shadow: 0 0 20px rgba(52,211,153,0.35), 0 4px 12px rgba(0,0,0,0.4);
       transition: all 0.15s ease;
     }
-    .play-ripple:active {
-      transform: scale(0.92);
+    .play-btn:active {
+      transform: scale(0.91);
+      box-shadow: 0 0 12px rgba(52,211,153,0.2);
     }
-    
-    /* truncate lines for song titles */
+
+    /* ── Control buttons ── */
+    .ctrl-btn {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.07);
+      transition: all 0.15s ease;
+    }
+    .ctrl-btn:active {
+      background: rgba(255,255,255,0.12);
+      transform: scale(0.93);
+    }
+
+    /* ── Badge ── */
+    .badge {
+      background: rgba(52,211,153,0.1);
+      border: 1px solid rgba(52,211,153,0.22);
+      color: #6ee7b7;
+    }
+
+    /* ── Section header underline ── */
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+    }
+
+    /* ── Scrollbar ── */
+    .overflow-x-auto::-webkit-scrollbar { height: 3px; }
+    .overflow-x-auto::-webkit-scrollbar-track { background: transparent; }
+    .overflow-x-auto::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 10px; }
+
+    audio { display: none; }
+
     .line-clamp-2 {
       display: -webkit-box;
       -webkit-line-clamp: 2;
@@ -91,111 +224,228 @@
       overflow: hidden;
     }
 
-    /* custom progress container */
-    .progress-container {
-      background: #2c2c2e;
+    /* ── Welcome pill ── */
+    .welcome-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(52,211,153,0.08);
+      border: 1px solid rgba(52,211,153,0.16);
+      border-radius: 999px;
+      padding: 3px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #6ee7b7;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
+
+    /* ── Floating dot on cover ── */
+    .live-dot {
+      width: 10px; height: 10px;
+      background: #34d399;
+      border-radius: 50%;
+      border: 2px solid #060810;
+      box-shadow: 0 0 6px rgba(52,211,153,0.7);
+    }
+
+    /* ── Safe area bottom ── */
+    .safe-bottom { padding-bottom: max(12px, env(safe-area-inset-bottom)); }
+
+    /* ── Entry animation ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { animation: fadeUp 0.5s ease both; }
+    .delay-1 { animation-delay: 0.08s; }
+    .delay-2 { animation-delay: 0.16s; }
+    .delay-3 { animation-delay: 0.24s; }
+
+    /* ── Now playing glow ring ── */
+    .cover-ring {
+      border-radius: 14px;
+      box-shadow: 0 0 0 2px rgba(52,211,153,0.18), 0 6px 18px rgba(0,0,0,0.5);
+      transition: box-shadow 0.3s ease;
+    }
+    .cover-ring.playing {
+      box-shadow: 0 0 0 2px rgba(52,211,153,0.5), 0 0 20px rgba(52,211,153,0.2), 0 6px 18px rgba(0,0,0,0.5);
+    }
+	
+	.logo-image{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:12px;
+  image-rendering:-webkit-optimize-contrast;
+  filter:
+    drop-shadow(0 0 10px rgba(52,211,153,0.20))
+    drop-shadow(0 4px 10px rgba(0,0,0,0.35));
+}
   </style>
 </head>
-<body class="bg-black text-white min-h-screen pb-28 selection:bg-green-600/30">
+<body class="text-white min-h-screen pb-36 selection:bg-emerald-600/30">
 
-  <!-- floating gradient header with glossy effect -->
-  <div class="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-white/10 px-5 py-3 flex items-center justify-between">
+  <!-- ═══════════════════════════════════════════
+       HEADER with PNG-style Logo
+  ══════════════════════════════════════════════ -->
+  <header class="fixed top-0 left-0 right-0 z-50 header-glass px-4 py-2.5 flex items-center justify-between" style="padding-top: max(10px, env(safe-area-inset-top))">
+
+    <!-- Logo PNG (inline SVG renders as a crisp PNG-like asset) -->
     <div class="flex items-center gap-2.5">
-      <div class="bg-gradient-to-tr from-green-500 to-emerald-400 p-1.5 rounded-full shadow-md">
-        <i class="fas fa-head-side-headphones text-black text-sm"></i>
+      <!-- Logo mark -->
+      <div class="logo-mark">
+        <div class="logo-mark">
+  <img
+    src="images/musify.png"
+    alt="OPM Logo"
+    class="logo-image"
+  >
+</div>
       </div>
-      <h1 class="text-2xl font-extrabold tracking-tight bg-gradient-to-r from-white to-green-300 bg-clip-text text-transparent">OPM 2025</h1>
-    </div>
-    <div class="flex gap-5 text-zinc-300">
-      <div class="relative">
-        <i class="fas fa-bell text-lg"></i>
-        <span class="absolute -top-1 -right-2 w-2 h-2 bg-green-500 rounded-full"></span>
-      </div>
-      <i class="fas fa-user-circle text-2xl text-green-400/80"></i>
-    </div>
-  </div>
 
-  <main class="pt-20 px-4 pb-6">
-    <!-- personalized hero -->
-    <div class="mt-2 mb-6 flex items-baseline justify-between flex-wrap">
-      <div>
-        <span class="text-zinc-400 text-sm font-medium tracking-wide">WELCOME BACK</span>
-        <h2 class="text-3xl font-black mt-0.5 tracking-tight">Lycel ✨</h2>
-      </div>
-      <div class="bg-white/5 backdrop-blur-sm px-3 py-1.5 rounded-full text-xs font-medium text-green-400 border border-white/10">
-        <i class="fas fa-chart-simple mr-1 text-[11px]"></i> 46 hits
+      <!-- Logo wordmark -->
+      <div class="leading-none">
+        <div class="logo-text text-[22px] text-white tracking-tight">MUSIFY<span class="text-emerald-400"></span></div>
+        <div class="text-[10px] font-semibold text-emerald-400/70 tracking-[0.18em] uppercase -mt-0.5">Free Music Streaming</div>
       </div>
     </div>
 
-    <!-- Quick Picks: dynamic mood grid (based on top trending feel) -->
-    <div class="mb-9">
-      <div class="flex justify-between items-center mb-3">
-        <h3 class="text-lg font-bold tracking-wide flex items-center gap-2">
-          <i class="fas fa-bolt text-green-500 text-sm"></i> Quick Picks
+    <!-- Right actions -->
+    <div class="flex items-center gap-3">
+      <button class="relative w-9 h-9 rounded-full glass-card flex items-center justify-center text-zinc-300">
+        <i class="fas fa-bell text-sm"></i>
+        <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-emerald-400 rounded-full border border-[#060810]"></span>
+      </button>
+      <button class="w-9 h-9 rounded-full overflow-hidden glass-card flex items-center justify-center">
+        <i class="fas fa-user text-sm text-emerald-400/80"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════
+       MAIN CONTENT
+  ══════════════════════════════════════════════ -->
+  <main class="relative pt-[72px] px-4 pb-4">
+
+    <!-- Welcome hero -->
+    <div class="mt-4 mb-7 fade-up">
+      <div class="welcome-pill mb-2.5">
+        <i class="fas fa-seedling text-[9px]"></i> Welcome back
+      </div>
+      <div class="flex items-end justify-between">
+        <div>
+          <h2 class="logo-text text-4xl font-black tracking-tight leading-none">TOP 10 <span class="text-emerald-400">✨</span></h2>
+          <p class="text-zinc-500 text-sm mt-1 font-medium">Ready to feel every beat?</p>
+        </div>
+        <div class="badge rounded-2xl px-3 py-2 text-center">
+          <div class="text-lg font-bold leading-none text-emerald-300">46</div>
+          <div class="text-[10px] font-semibold tracking-widest uppercase opacity-70 mt-0.5">Hits</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Quick Picks ── -->
+    <div class="mb-8 fade-up delay-1">
+      <div class="flex justify-between items-center mb-3.5">
+        <h3 class="section-title text-lg flex items-center gap-2">
+          <span class="w-5 h-5 rounded-md bg-emerald-500/20 flex items-center justify-center">
+            <i class="fas fa-bolt text-emerald-400 text-[10px]"></i>
+          </span>
+          Quick Picks
         </h3>
-        <span class="text-[11px] text-zinc-500 uppercase tracking-wider">for you</span>
+        <span class="text-[11px] text-zinc-500 uppercase tracking-widest font-semibold">For You</span>
       </div>
-      <div class="grid grid-cols-2 gap-3" id="quickPicks"></div>
+      <div class="grid grid-cols-2 gap-2.5" id="quickPicks"></div>
     </div>
 
-    <!-- All Songs section with improved horizontal showcase -->
-    <div>
+    <!-- ── All Songs ── -->
+    <div class="fade-up delay-2">
       <div class="flex justify-between items-center mb-4">
-        <h3 class="text-xl font-bold tracking-tight flex items-center gap-2">
-          <i class="fas fa-album-collection text-green-400 text-base"></i> All Songs
+        <h3 class="section-title text-lg flex items-center gap-2">
+          <span class="w-5 h-5 rounded-md bg-emerald-500/20 flex items-center justify-center">
+            <i class="fas fa-music text-emerald-400 text-[10px]"></i>
+          </span>
+          All Songs
         </h3>
-        <span class="text-xs text-zinc-500 bg-white/5 px-2 py-1 rounded-full">46 tracks</span>
+        <span class="badge text-[11px] font-semibold px-2.5 py-1 rounded-full">46 tracks</span>
       </div>
-      <div class="flex gap-4 overflow-x-auto pb-3 snap-x scroll-smooth" id="allSongs"></div>
+      <div class="flex gap-3.5 overflow-x-auto pb-3 snap-x scroll-smooth" id="allSongs" style="-webkit-overflow-scrolling: touch;"></div>
     </div>
   </main>
 
-  <!-- Modernized Now Playing Bar with advanced micro-interactions -->
-  <div class="fixed bottom-0 left-0 right-0 z-50 player-glass rounded-t-2xl px-4 pt-3 pb-2 shadow-2xl transition-all duration-300">
-    <div class="flex items-center gap-3">
-      <div class="relative">
-        <img id="playerCover" src="https://picsum.photos/id/100/64/64" class="w-14 h-14 rounded-xl object-cover shadow-lg ring-2 ring-white/10 transition-all duration-200">
-        <div class="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border border-black"></div>
+  <!-- ═══════════════════════════════════════════
+       NOW PLAYING BAR
+  ══════════════════════════════════════════════ -->
+  <div class="fixed bottom-0 left-0 right-0 z-50 player-glass rounded-t-3xl safe-bottom">
+    <!-- Drag handle pill -->
+    <div class="flex justify-center pt-2.5 pb-1">
+      <div class="w-9 h-1 bg-white/15 rounded-full"></div>
+    </div>
+
+    <!-- Player row -->
+    <div class="flex items-center gap-3 px-4 pb-1">
+      <!-- Cover -->
+      <div class="relative flex-shrink-0">
+        <img id="playerCover" src="https://picsum.photos/id/29/300/300"
+          class="w-[52px] h-[52px] rounded-[14px] object-cover cover-ring" alt="Now playing">
+        <div class="live-dot absolute -bottom-1 -right-1"></div>
       </div>
+
+      <!-- Info -->
       <div class="flex-1 min-w-0">
-        <p id="playerTitle" class="font-semibold text-base truncate tracking-tight">Select a song</p>
-        <p id="playerArtist" class="text-xs text-zinc-400 truncate flex items-center gap-1">
-          <i class="fas fa-microphone-alt text-[9px] text-green-600"></i> Artist
+        <p id="playerTitle" class="font-semibold text-[15px] truncate tracking-tight leading-tight">Select a song</p>
+        <p id="playerArtist" class="text-xs text-zinc-400 truncate mt-0.5 flex items-center gap-1.5">
+          <i class="fas fa-microphone-alt text-[9px] text-emerald-500"></i>
+          <span>Artist</span>
         </p>
       </div>
-      <div class="flex items-center gap-3">
-        <button onclick="prevSong()" class="w-9 h-9 flex items-center justify-center rounded-full bg-white/5 active:bg-white/10 transition text-zinc-200">
-          <i class="fas fa-backward-step text-base"></i>
+
+      <!-- Controls -->
+      <div class="flex items-center gap-2 flex-shrink-0">
+        <button onclick="prevSong()" class="ctrl-btn w-9 h-9 flex items-center justify-center rounded-full text-zinc-300">
+          <i class="fas fa-backward-step text-[15px]"></i>
         </button>
-        <button onclick="togglePlay()" id="playBtn" class="play-ripple w-11 h-11 flex items-center justify-center bg-gradient-to-br from-green-500 to-emerald-600 text-black rounded-full shadow-lg shadow-green-900/30 active:scale-95 transition-all">
-          <i class="fas fa-play text-lg ml-0.5"></i>
+        <button onclick="togglePlay()" id="playBtn"
+          class="play-btn w-12 h-12 flex items-center justify-center text-black rounded-full">
+          <i class="fas fa-play text-base ml-0.5"></i>
         </button>
-        <button onclick="nextSong()" class="w-9 h-9 flex items-center justify-center rounded-full bg-white/5 active:bg-white/10 transition text-zinc-200">
-          <i class="fas fa-forward-step text-base"></i>
+        <button onclick="nextSong()" class="ctrl-btn w-9 h-9 flex items-center justify-center rounded-full text-zinc-300">
+          <i class="fas fa-forward-step text-[15px]"></i>
         </button>
       </div>
     </div>
 
     <audio id="audioPlayer" preload="metadata"></audio>
 
-    <div class="mt-3 flex items-center gap-2 text-[11px] font-mono text-zinc-400">
-      <span id="currentTime" class="w-8 text-right">0:00</span>
-      <div class="flex-1 h-1.5 bg-zinc-800 rounded-full overflow-hidden cursor-pointer progress-container" onclick="seek(event)">
-        <div id="progressBar" class="h-full w-0 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full relative"></div>
+    <!-- Progress -->
+    <div class="px-4 pb-1 mt-2 flex items-center gap-2.5 text-[11px] font-mono text-zinc-500">
+      <span id="currentTime" class="w-8 text-right tabular-nums">0:00</span>
+      <div class="flex-1 h-1 progress-track cursor-pointer" onclick="seek(event)">
+        <div id="progressBar" class="h-full w-0 rounded-full"
+          style="background: linear-gradient(90deg, #34d399, #10b981);"></div>
       </div>
-      <span id="duration" class="w-8">0:00</span>
+      <span id="duration" class="w-8 tabular-nums">0:00</span>
     </div>
-    
-    <!-- mini player extra vibe -->
-    <div class="flex justify-center gap-4 mt-1.5 text-[11px] text-zinc-500">
-      <span><i class="far fa-heart mr-1 text-green-500/70"></i> likes</span>
-      <span><i class="fas fa-waveform mr-1"></i> now playing</span>
+
+    <!-- Mini meta row -->
+    <div class="flex justify-center items-center gap-5 px-4 pb-1 mt-0.5 text-[11px] text-zinc-600">
+      <span class="flex items-center gap-1.5">
+        <i class="far fa-heart text-emerald-500/60 text-[10px]"></i> likes
+      </span>
+      <span class="flex items-center gap-1.5">
+        <i class="fas fa-waveform text-[10px]"></i> now playing
+      </span>
+      <span class="flex items-center gap-1.5">
+        <i class="fas fa-shuffle text-[10px]"></i> shuffle
+      </span>
     </div>
   </div>
 
+  <!-- ═══════════════════════════════════════════
+       SCRIPTS
+  ══════════════════════════════════════════════ -->
   <script>
-    // ======================== ENHANCED MOBILE AUDIO PLAYER ==========================
     const baseURL = "https://raw.githubusercontent.com/webdevelopernas-dot/OPM-Sir-Don/main/OPM-2025/";
 
     const songs = [
@@ -246,183 +496,132 @@
       { title: "Kalapastangan", artist: "fitterkarma", file: "fitterkarma%20-%20Kalapastangan%20(Lyrics).mp3" },
       { title: "Paano na, Sinta", artist: "iluna, Frank Ely", file: "iluna%2C%20Frank%20Ely%20-%20Paano%20na%2C%20Sinta_%20(Lyric%20Video).mp3" },
     ];
-    
-    // Helper: get consistent random but nice cover arts using unsplash gradient style
+
     const getCoverArt = (seed) => `https://picsum.photos/id/${(seed % 150) + 10}/300/300`;
 
     let currentSongIndex = 0;
     let isPlaying = false;
     const audio = document.getElementById('audioPlayer');
-    const playBtnIcon = document.querySelector('#playBtn i');
-    
-    // Quick picks curated from trending OPM (enhanced)
+
     const quickPickSongs = [
       { title: "Sining", artist: "Dionela ft. Jay R", index: 12 },
       { title: "Palagi", artist: "TJ Monterde", index: 31 },
       { title: "Uhaw", artist: "Dilaw", index: 0 },
       { title: "Raining in Manila", artist: "Lola Amour", index: 24 }
     ];
-    
+
     function renderQuickPicks() {
       const container = document.getElementById('quickPicks');
-      container.innerHTML = quickPickSongs.map(pick => {
+      container.innerHTML = quickPickSongs.map((pick, i) => {
         const song = songs[pick.index];
+        const gradients = [
+          'from-emerald-900/40 to-teal-900/20',
+          'from-green-900/40 to-emerald-900/20',
+          'from-teal-900/40 to-cyan-900/20',
+          'from-green-800/30 to-teal-900/20',
+        ];
         return `
-          <div onclick="playSong(${pick.index})" class="quick-pick-card rounded-2xl p-3 flex items-center gap-3 shadow-md active:scale-[0.98] transition-all cursor-pointer">
-            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-green-800/40 to-emerald-900/30 flex items-center justify-center overflow-hidden shadow-inner">
-              <i class="fas fa-play text-green-400 text-xs"></i>
+          <div onclick="playSong(${pick.index})" class="quick-pick-card p-3 flex items-center gap-3 cursor-pointer">
+            <div class="w-11 h-11 rounded-xl bg-gradient-to-br ${gradients[i]} flex items-center justify-center flex-shrink-0 border border-white/05">
+              <i class="fas fa-play text-emerald-400 text-[11px] ml-0.5"></i>
             </div>
             <div class="flex-1 min-w-0">
-              <p class="font-semibold text-sm truncate">${song.title}</p>
-              <p class="text-[11px] text-green-300/70 truncate">${song.artist}</p>
+              <p class="font-semibold text-[13px] truncate leading-tight">${song.title}</p>
+              <p class="text-[11px] text-emerald-300/60 truncate mt-0.5">${song.artist}</p>
             </div>
-            <i class="fas fa-music text-[10px] text-zinc-500"></i>
+            <i class="fas fa-chevron-right text-[10px] text-zinc-600 flex-shrink-0"></i>
           </div>
         `;
       }).join('');
     }
-    
+
     function renderAllSongs() {
       const container = document.getElementById('allSongs');
       container.innerHTML = songs.map((song, idx) => `
-        <div onclick="playSong(${idx})" class="snap-start flex-shrink-0 w-40 cursor-pointer song-card transition-transform active:scale-95">
-          <div class="relative overflow-hidden rounded-xl shadow-2xl">
-            <img src="${getCoverArt(idx)}" class="w-40 h-40 object-cover rounded-xl album-art" alt="album art">
-            <div class="absolute inset-0 bg-black/20 rounded-xl opacity-0 hover:opacity-100 transition group-hover:bg-black/30"></div>
+        <div onclick="playSong(${idx})" class="snap-start flex-shrink-0 w-[148px] cursor-pointer song-card">
+          <div class="album-wrapper">
+            <img src="${getCoverArt(idx)}" class="w-[148px] h-[148px] object-cover" alt="${song.title}">
           </div>
-          <div class="mt-2.5">
-            <p class="font-semibold text-sm leading-tight line-clamp-2">${song.title}</p>
-            <p class="text-xs text-zinc-400 mt-0.5 flex items-center gap-1"><i class="fas fa-user-alt text-[8px] text-green-600"></i> ${song.artist}</p>
+          <div class="mt-2.5 px-0.5">
+            <p class="font-semibold text-[13px] leading-tight line-clamp-2">${song.title}</p>
+            <p class="text-[11px] text-zinc-500 mt-1 flex items-center gap-1 truncate">
+              <i class="fas fa-user text-[8px] text-emerald-600/70"></i> ${song.artist}
+            </p>
           </div>
         </div>
       `).join('');
     }
-    
+
     function updatePlayerUI() {
       const song = songs[currentSongIndex];
       document.getElementById('playerTitle').textContent = song.title;
-      document.getElementById('playerArtist').innerHTML = `<i class="fas fa-microphone-alt text-[9px] text-green-600"></i> ${song.artist}`;
+      document.getElementById('playerArtist').innerHTML =
+        `<i class="fas fa-microphone-alt text-[9px] text-emerald-500"></i><span>${song.artist}</span>`;
       document.getElementById('playerCover').src = getCoverArt(currentSongIndex);
-      const playButtonIcon = document.querySelector('#playBtn i');
-      if (playButtonIcon) {
-        playButtonIcon.className = isPlaying ? 'fas fa-pause text-lg' : 'fas fa-play text-lg ml-0.5';
-      }
+      const icon = document.querySelector('#playBtn i');
+      if (icon) icon.className = isPlaying ? 'fas fa-pause text-base' : 'fas fa-play text-base ml-0.5';
+      // glow ring
+      const cover = document.getElementById('playerCover');
+      if (isPlaying) cover.classList.add('playing');
+      else cover.classList.remove('playing');
     }
-    
+
     function playSong(index) {
-      if (index === currentSongIndex && audio.src && !audio.paused) {
-        // same song playing, just keep
-        return;
-      }
+      if (index === currentSongIndex && audio.src && !audio.paused) return;
       currentSongIndex = index;
-      const song = songs[index];
-      const encodedFile = song.file;
-      audio.src = baseURL + encodedFile;
+      audio.src = baseURL + songs[index].file;
       audio.load();
-      audio.play().then(() => {
-        isPlaying = true;
-        updatePlayerUI();
-      }).catch(err => {
-        console.warn("Playback error:", err);
-        isPlaying = false;
-        updatePlayerUI();
-        // Fallback: if network error, show simple alert
-        alert("Unable to play track. Check connection or file link.");
-      });
+      audio.play().then(() => { isPlaying = true; updatePlayerUI(); })
+        .catch(err => { console.warn("Playback error:", err); isPlaying = false; updatePlayerUI(); });
     }
-    
+
     function togglePlay() {
-      if (!audio.src) {
-        playSong(0);
-        return;
-      }
-      if (isPlaying) {
-        audio.pause();
-        isPlaying = false;
-      } else {
-        audio.play().catch(e => {
-          console.log(e);
-          playSong(currentSongIndex);
-        });
-        isPlaying = true;
-      }
+      if (!audio.src) { playSong(0); return; }
+      if (isPlaying) { audio.pause(); isPlaying = false; }
+      else { audio.play().catch(() => playSong(currentSongIndex)); isPlaying = true; }
       updatePlayerUI();
     }
-    
-    function nextSong() {
-      currentSongIndex = (currentSongIndex + 1) % songs.length;
-      playSong(currentSongIndex);
-    }
-    
-    function prevSong() {
-      currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
-      playSong(currentSongIndex);
-    }
-    
+
+    function nextSong() { currentSongIndex = (currentSongIndex + 1) % songs.length; playSong(currentSongIndex); }
+    function prevSong() { currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length; playSong(currentSongIndex); }
+
     audio.addEventListener('timeupdate', () => {
       if (audio.duration && !isNaN(audio.duration)) {
-        const percent = (audio.currentTime / audio.duration) * 100;
-        document.getElementById('progressBar').style.width = `${percent}%`;
-        document.getElementById('currentTime').textContent = formatTime(audio.currentTime);
-        document.getElementById('duration').textContent = formatTime(audio.duration);
+        const pct = (audio.currentTime / audio.duration) * 100;
+        document.getElementById('progressBar').style.width = `${pct}%`;
+        document.getElementById('currentTime').textContent = fmt(audio.currentTime);
+        document.getElementById('duration').textContent = fmt(audio.duration);
       }
     });
-    
-    audio.addEventListener('loadedmetadata', () => {
-      document.getElementById('duration').textContent = formatTime(audio.duration);
-    });
-    
-    audio.addEventListener('ended', () => {
-      nextSong();
-    });
-    
-    audio.addEventListener('play', () => {
-      isPlaying = true;
-      updatePlayerUI();
-    });
-    
-    audio.addEventListener('pause', () => {
-      isPlaying = false;
-      updatePlayerUI();
-    });
-    
+    audio.addEventListener('loadedmetadata', () => { document.getElementById('duration').textContent = fmt(audio.duration); });
+    audio.addEventListener('ended', nextSong);
+    audio.addEventListener('play', () => { isPlaying = true; updatePlayerUI(); });
+    audio.addEventListener('pause', () => { isPlaying = false; updatePlayerUI(); });
+
     function seek(e) {
       if (!audio.duration) return;
       const rect = e.currentTarget.getBoundingClientRect();
-      let clickX = e.clientX - rect.left;
-      if (clickX < 0) clickX = 0;
-      if (clickX > rect.width) clickX = rect.width;
-      const percent = clickX / rect.width;
-      audio.currentTime = percent * audio.duration;
+      const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+      audio.currentTime = pct * audio.duration;
     }
-    
-    function formatTime(seconds) {
-      if (isNaN(seconds)) return "0:00";
-      const mins = Math.floor(seconds / 60);
-      const secs = Math.floor(seconds % 60);
-      return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+
+    function fmt(s) {
+      if (isNaN(s)) return "0:00";
+      const m = Math.floor(s / 60), sec = Math.floor(s % 60);
+      return `${m}:${sec < 10 ? '0' : ''}${sec}`;
     }
-    
-    // initial load: default state
+
     renderQuickPicks();
     renderAllSongs();
-    
-    // Set default cover nicely
-    document.getElementById('playerCover').src = "https://picsum.photos/id/29/300/300";
-    
-    // optional: if audio errors on first interaction, fix accordingly
+
     window.playSong = playSong;
     window.togglePlay = togglePlay;
     window.nextSong = nextSong;
     window.prevSong = prevSong;
     window.seek = seek;
-    
-    // small extra: apply body listener for mobile volume fix (just safe)
+
     document.body.addEventListener('touchstart', () => {}, { passive: true });
-    
-    // for user experience, inform that clicking song starts playback
-    console.log("OPM 2025 — mobile ready");
+    console.log("OPM 2025 — glassmorphism edition loaded");
   </script>
 </body>
 </html>
-```
