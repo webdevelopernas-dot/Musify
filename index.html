@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
-  <title>OPM 2025 — Mood & Vibes</title>
+  <title>MUSIFY — OPM 2025</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
@@ -30,7 +30,6 @@
       min-height: 100dvh;
     }
 
-    /* ── Animated mesh background ── */
     body::before {
       content: '';
       position: fixed;
@@ -43,7 +42,6 @@
       pointer-events: none;
     }
 
-    /* ── Noise grain overlay ── */
     body::after {
       content: '';
       position: fixed;
@@ -59,7 +57,6 @@
     main, .fixed { z-index: 1; }
     .fixed { z-index: 50 !important; }
 
-    /* ── Glass utility ── */
     .glass {
       background: var(--glass-bg);
       backdrop-filter: blur(20px) saturate(180%);
@@ -76,7 +73,6 @@
       overflow: hidden;
     }
 
-    /* Inner shine */
     .glass-card::before {
       content: '';
       position: absolute;
@@ -86,7 +82,6 @@
       pointer-events: none;
     }
 
-    /* ── Header ── */
     .header-glass {
       background: rgba(6, 8, 16, 0.78);
       backdrop-filter: blur(24px) saturate(180%);
@@ -95,7 +90,6 @@
       box-shadow: 0 1px 0 rgba(255,255,255,0.04), 0 8px 32px rgba(0,0,0,0.4);
     }
 
-    /* ── Logo ── */
     .logo-mark {
       position: relative;
       width: 38px;
@@ -110,37 +104,12 @@
       line-height: 1;
     }
 
-    /* ── Quick pick cards ── */
-    .quick-pick-card {
-      background: rgba(255,255,255,0.04);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,0.07);
-      border-radius: 18px;
+    .quick-pick-card, .song-card {
       transition: all 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-      position: relative;
-      overflow: hidden;
     }
-
-    .quick-pick-card::after {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.10), transparent);
-    }
-
-    .quick-pick-card:active {
+    .quick-pick-card:active, .song-card:active {
       transform: scale(0.97);
-      background: rgba(52,211,153,0.07);
-      border-color: rgba(52,211,153,0.18);
     }
-
-    /* ── Song card ── */
-    .song-card {
-      transition: transform 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-    }
-    .song-card:active { transform: scale(0.95); }
 
     .album-wrapper {
       position: relative;
@@ -158,7 +127,6 @@
       pointer-events: none;
     }
 
-    /* ── Progress ── */
     #progressBar { transition: width 0.05s linear; }
     .progress-track {
       background: rgba(255,255,255,0.08);
@@ -166,7 +134,6 @@
       overflow: hidden;
     }
 
-    /* ── Player glass ── */
     .player-glass {
       background: rgba(6, 8, 16, 0.88);
       backdrop-filter: blur(28px) saturate(200%);
@@ -175,7 +142,6 @@
       box-shadow: 0 -12px 40px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.05);
     }
 
-    /* ── Play button ── */
     .play-btn {
       background: linear-gradient(135deg, #34d399 0%, #059669 100%);
       box-shadow: 0 0 20px rgba(52,211,153,0.35), 0 4px 12px rgba(0,0,0,0.4);
@@ -186,7 +152,6 @@
       box-shadow: 0 0 12px rgba(52,211,153,0.2);
     }
 
-    /* ── Control buttons ── */
     .ctrl-btn {
       background: rgba(255,255,255,0.06);
       border: 1px solid rgba(255,255,255,0.07);
@@ -197,20 +162,17 @@
       transform: scale(0.93);
     }
 
-    /* ── Badge ── */
     .badge {
       background: rgba(52,211,153,0.1);
       border: 1px solid rgba(52,211,153,0.22);
       color: #6ee7b7;
     }
 
-    /* ── Section header underline ── */
     .section-title {
       font-family: 'Syne', sans-serif;
       font-weight: 700;
     }
 
-    /* ── Scrollbar ── */
     .overflow-x-auto::-webkit-scrollbar { height: 3px; }
     .overflow-x-auto::-webkit-scrollbar-track { background: transparent; }
     .overflow-x-auto::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 10px; }
@@ -224,7 +186,6 @@
       overflow: hidden;
     }
 
-    /* ── Welcome pill ── */
     .welcome-pill {
       display: inline-flex;
       align-items: center;
@@ -240,7 +201,6 @@
       text-transform: uppercase;
     }
 
-    /* ── Floating dot on cover ── */
     .live-dot {
       width: 10px; height: 10px;
       background: #34d399;
@@ -249,10 +209,8 @@
       box-shadow: 0 0 6px rgba(52,211,153,0.7);
     }
 
-    /* ── Safe area bottom ── */
     .safe-bottom { padding-bottom: max(12px, env(safe-area-inset-bottom)); }
 
-    /* ── Entry animation ── */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(14px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -262,7 +220,6 @@
     .delay-2 { animation-delay: 0.16s; }
     .delay-3 { animation-delay: 0.24s; }
 
-    /* ── Now playing glow ring ── */
     .cover-ring {
       border-radius: 14px;
       box-shadow: 0 0 0 2px rgba(52,211,153,0.18), 0 6px 18px rgba(0,0,0,0.5);
@@ -271,47 +228,44 @@
     .cover-ring.playing {
       box-shadow: 0 0 0 2px rgba(52,211,153,0.5), 0 0 20px rgba(52,211,153,0.2), 0 6px 18px rgba(0,0,0,0.5);
     }
-	
-	.logo-image{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  border-radius:12px;
-  image-rendering:-webkit-optimize-contrast;
-  filter:
-    drop-shadow(0 0 10px rgba(52,211,153,0.20))
-    drop-shadow(0 4px 10px rgba(0,0,0,0.35));
-}
+
+    .logo-image{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      border-radius:12px;
+      image-rendering:-webkit-optimize-contrast;
+      filter:
+        drop-shadow(0 0 10px rgba(52,211,153,0.20))
+        drop-shadow(0 4px 10px rgba(0,0,0,0.35));
+    }
+
+    /* Category Chips */
+    .category-chip {
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      white-space: nowrap;
+    }
+    .category-chip.active {
+      background: #34d399;
+      color: #000;
+      font-weight: 600;
+    }
   </style>
 </head>
 <body class="text-white min-h-screen pb-36 selection:bg-emerald-600/30">
 
-  <!-- ═══════════════════════════════════════════
-       HEADER with PNG-style Logo
-  ══════════════════════════════════════════════ -->
+  <!-- HEADER -->
   <header class="fixed top-0 left-0 right-0 z-50 header-glass px-4 py-2.5 flex items-center justify-between" style="padding-top: max(10px, env(safe-area-inset-top))">
-
-    <!-- Logo PNG (inline SVG renders as a crisp PNG-like asset) -->
     <div class="flex items-center gap-2.5">
-      <!-- Logo mark -->
       <div class="logo-mark">
-        <div class="logo-mark">
-  <img
-    src="images/musify.png"
-    alt="OPM Logo"
-    class="logo-image"
-  >
-</div>
+        <img src="images/musify.png" alt="MUSIFY Logo" class="logo-image">
       </div>
-
-      <!-- Logo wordmark -->
       <div class="leading-none">
-        <div class="logo-text text-[22px] text-white tracking-tight">MUSIFY<span class="text-emerald-400"></span></div>
-        <div class="text-[10px] font-semibold text-emerald-400/70 tracking-[0.18em] uppercase -mt-0.5">Free Music Streaming</div>
+        <div class="logo-text text-[22px] text-white tracking-tight">MUSIFY</div>
+        <div class="text-[10px] font-semibold text-emerald-400/70 tracking-[0.18em] uppercase -mt-0.5">OPM 2025</div>
       </div>
     </div>
 
-    <!-- Right actions -->
     <div class="flex items-center gap-3">
       <button class="relative w-9 h-9 rounded-full glass-card flex items-center justify-center text-zinc-300">
         <i class="fas fa-bell text-sm"></i>
@@ -323,29 +277,26 @@
     </div>
   </header>
 
-  <!-- ═══════════════════════════════════════════
-       MAIN CONTENT
-  ══════════════════════════════════════════════ -->
   <main class="relative pt-[72px] px-4 pb-4">
 
-    <!-- Welcome hero -->
+    <!-- Welcome -->
     <div class="mt-4 mb-7 fade-up">
       <div class="welcome-pill mb-2.5">
         <i class="fas fa-seedling text-[9px]"></i> Welcome back
       </div>
       <div class="flex items-end justify-between">
         <div>
-          <h2 class="logo-text text-4xl font-black tracking-tight leading-none">TOP 10 <span class="text-emerald-400">✨</span></h2>
-          <p class="text-zinc-500 text-sm mt-1 font-medium">Ready to feel every beat?</p>
+          <h2 class="logo-text text-4xl font-black tracking-tight leading-none">Good Vibes <span class="text-emerald-400">Only</span></h2>
+          <p class="text-zinc-500 text-sm mt-1 font-medium">What are you feeling today?</p>
         </div>
         <div class="badge rounded-2xl px-3 py-2 text-center">
-          <div class="text-lg font-bold leading-none text-emerald-300">46</div>
-          <div class="text-[10px] font-semibold tracking-widest uppercase opacity-70 mt-0.5">Hits</div>
+          <div class="text-lg font-bold leading-none text-emerald-300" id="totalTrackCount">48</div>
+          <div class="text-[10px] font-semibold tracking-widest uppercase opacity-70 mt-0.5">Tracks</div>
         </div>
       </div>
     </div>
 
-    <!-- ── Quick Picks ── -->
+    <!-- Quick Picks -->
     <div class="mb-8 fade-up delay-1">
       <div class="flex justify-between items-center mb-3.5">
         <h3 class="section-title text-lg flex items-center gap-2">
@@ -354,45 +305,48 @@
           </span>
           Quick Picks
         </h3>
-        <span class="text-[11px] text-zinc-500 uppercase tracking-widest font-semibold">For You</span>
+        <span onclick="setCategory('all')" class="text-[11px] text-emerald-400 cursor-pointer hover:underline">See all</span>
       </div>
       <div class="grid grid-cols-2 gap-2.5" id="quickPicks"></div>
     </div>
 
-    <!-- ── All Songs ── -->
-    <div class="fade-up delay-2">
+    <!-- Categories -->
+    <div class="mb-8 fade-up delay-2">
+      <h3 class="section-title text-lg mb-3 flex items-center gap-2">
+        <span class="w-5 h-5 rounded-md bg-emerald-500/20 flex items-center justify-center">
+          <i class="fas fa-layer-group text-emerald-400 text-[10px]"></i>
+        </span>
+        Browse by Mood
+      </h3>
+      <div class="flex gap-2 overflow-x-auto pb-2 snap-x scroll-smooth no-scrollbar" id="categoryChips">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+
+    <!-- All Songs / Filtered -->
+    <div class="fade-up delay-3">
       <div class="flex justify-between items-center mb-4">
-        <h3 class="section-title text-lg flex items-center gap-2">
-          <span class="w-5 h-5 rounded-md bg-emerald-500/20 flex items-center justify-center">
-            <i class="fas fa-music text-emerald-400 text-[10px]"></i>
-          </span>
+        <h3 class="section-title text-lg flex items-center gap-2" id="currentCategoryTitle">
           All Songs
         </h3>
-        <span class="badge text-[11px] font-semibold px-2.5 py-1 rounded-full">46 tracks</span>
+        <span id="trackCount" class="badge text-[11px] font-semibold px-2.5 py-1 rounded-full">48 tracks</span>
       </div>
       <div class="flex gap-3.5 overflow-x-auto pb-3 snap-x scroll-smooth" id="allSongs" style="-webkit-overflow-scrolling: touch;"></div>
     </div>
   </main>
 
-  <!-- ═══════════════════════════════════════════
-       NOW PLAYING BAR
-  ══════════════════════════════════════════════ -->
+  <!-- NOW PLAYING -->
   <div class="fixed bottom-0 left-0 right-0 z-50 player-glass rounded-t-3xl safe-bottom">
-    <!-- Drag handle pill -->
     <div class="flex justify-center pt-2.5 pb-1">
       <div class="w-9 h-1 bg-white/15 rounded-full"></div>
     </div>
 
-    <!-- Player row -->
     <div class="flex items-center gap-3 px-4 pb-1">
-      <!-- Cover -->
       <div class="relative flex-shrink-0">
-        <img id="playerCover" src="https://picsum.photos/id/29/300/300"
-          class="w-[52px] h-[52px] rounded-[14px] object-cover cover-ring" alt="Now playing">
+        <img id="playerCover" src="https://picsum.photos/id/29/300/300" class="w-[52px] h-[52px] rounded-[14px] object-cover cover-ring" alt="Now playing">
         <div class="live-dot absolute -bottom-1 -right-1"></div>
       </div>
 
-      <!-- Info -->
       <div class="flex-1 min-w-0">
         <p id="playerTitle" class="font-semibold text-[15px] truncate tracking-tight leading-tight">Select a song</p>
         <p id="playerArtist" class="text-xs text-zinc-400 truncate mt-0.5 flex items-center gap-1.5">
@@ -401,13 +355,11 @@
         </p>
       </div>
 
-      <!-- Controls -->
       <div class="flex items-center gap-2 flex-shrink-0">
         <button onclick="prevSong()" class="ctrl-btn w-9 h-9 flex items-center justify-center rounded-full text-zinc-300">
           <i class="fas fa-backward-step text-[15px]"></i>
         </button>
-        <button onclick="togglePlay()" id="playBtn"
-          class="play-btn w-12 h-12 flex items-center justify-center text-black rounded-full">
+        <button onclick="togglePlay()" id="playBtn" class="play-btn w-12 h-12 flex items-center justify-center text-black rounded-full">
           <i class="fas fa-play text-base ml-0.5"></i>
         </button>
         <button onclick="nextSong()" class="ctrl-btn w-9 h-9 flex items-center justify-center rounded-full text-zinc-300">
@@ -418,185 +370,291 @@
 
     <audio id="audioPlayer" preload="metadata"></audio>
 
-    <!-- Progress -->
     <div class="px-4 pb-1 mt-2 flex items-center gap-2.5 text-[11px] font-mono text-zinc-500">
       <span id="currentTime" class="w-8 text-right tabular-nums">0:00</span>
       <div class="flex-1 h-1 progress-track cursor-pointer" onclick="seek(event)">
-        <div id="progressBar" class="h-full w-0 rounded-full"
-          style="background: linear-gradient(90deg, #34d399, #10b981);"></div>
+        <div id="progressBar" class="h-full w-0 rounded-full" style="background: linear-gradient(90deg, #34d399, #10b981);"></div>
       </div>
       <span id="duration" class="w-8 tabular-nums">0:00</span>
     </div>
 
-    <!-- Mini meta row -->
-    <div class="flex justify-center items-center gap-5 px-4 pb-1 mt-0.5 text-[11px] text-zinc-600">
-      <span class="flex items-center gap-1.5">
-        <i class="far fa-heart text-emerald-500/60 text-[10px]"></i> likes
-      </span>
-      <span class="flex items-center gap-1.5">
-        <i class="fas fa-waveform text-[10px]"></i> now playing
-      </span>
-      <span class="flex items-center gap-1.5">
-        <i class="fas fa-shuffle text-[10px]"></i> shuffle
-      </span>
+    <div class="flex justify-center items-center gap-5 px-4 pb-3 text-[11px] text-zinc-600">
+      <span class="flex items-center gap-1.5"><i class="far fa-heart text-emerald-500/60 text-[10px]"></i> likes</span>
+      <span class="flex items-center gap-1.5"><i class="fas fa-waveform text-[10px]"></i> now playing</span>
+      <span class="flex items-center gap-1.5"><i class="fas fa-shuffle text-[10px]"></i> shuffle</span>
     </div>
   </div>
 
-  <!-- ═══════════════════════════════════════════
-       SCRIPTS
-  ══════════════════════════════════════════════ -->
   <script>
-    const baseURL = "https://raw.githubusercontent.com/webdevelopernas-dot/OPM-Sir-Don/main/OPM-2025/";
+    // Updated base URLs
+    const baseURL_OPM = "https://raw.githubusercontent.com/webdevelopernas-dot/OPM-Sir-Don/main/OPM-2025/";
+    const baseURL_BL = "https://raw.githubusercontent.com/webdevelopernas-dot/OPM-Sir-Don/main/BLAYNandBANDETS/";
 
-    const songs = [
-      { title: "Uhaw (Tayong Lahat)", artist: "Dilaw", file: "%40Dilaw%20%20-%20Uhaw%20(Tayong%20Lahat)%20(Lyrics).mp3" },
-      { title: "Blink Twice", artist: "BINI", file: "BINI%20%20'Blink%20Twice'%20Official%20Music%20Video.mp3" },
-      { title: "Bikini", artist: "BINI", file: "BINI%20Bikini%20Official%20Lyric%20Video.mp3" },
-      { title: "Lifetime", artist: "Ben&Ben", file: "Ben%26Ben%20-%20Lifetime%20%20Official%20Lyric%20Video.mp3" },
-      { title: "Saranggola", artist: "Ben&Ben", file: "Ben%26Ben%20-%20Saranggola%20%20Official%20Lyric%20Video.mp3" },
-      { title: "Best Time", artist: "Brent Faiyaz", file: "Brent%20Faiyaz%20-%20Best%20Time%20(Lyrics).mp3" },
-      { title: "Dalangin", artist: "Earl Agustin", file: "Dalangin%20by%20Earl%20Agustin%20(Lyrics).mp3" },
-      { title: "Bulong", artist: "December Avenue", file: "December%20Avenue%20-%20Bulong%20(Lyrics).mp3" },
-      { title: "Saksi Ang Langit", artist: "December Avenue", file: "December%20Avenue%20-%20Saksi%20Ang%20Langit.mp3" },
-      { title: "Maki", artist: "Dilaw", file: "Dilaw%20-%20Maki%20(Official%20Music%20Video).mp3" },
-      { title: "Marilag", artist: "Dionela", file: "Dionela%20-%20Marilag%20(Official%20Lyric%20Video).mp3" },
-      { title: "Oksihina", artist: "Dionela", file: "Dionela%20-%20Oksihina%20(Lyrics).mp3" },
-      { title: "Sining", artist: "Dionela ft. Jay R", file: "Dionela%20-%20sining%20(Official%20Music%20Video)%20ft.%20Jay%20R.mp3" },
-      { title: "Museo", artist: "Eliza Maturan", file: "Eliza%20Maturan%20-%20Museo%20(Official%20Lyric%20Video).mp3" },
-      { title: "Ginintuan Tanawin", artist: "Wilbert Ross", file: "Ginintuan%20Tanawin%20-%20Wilbert%20Ross%20(LYRICS)%20%20OPM%20Love%20Song%202025.mp3" },
-      { title: "Halimaw", artist: "Gloc-9", file: "Gloc-9%20feat.%20Abaddon%2C%20Smugglaz%2C%20Hero%20-%20Halimaw%20(Official%20Lyric%20Video).mp3" },
-      { title: "My Day", artist: "HELLMERRY", file: "HELLMERRY%20-%20My%20Day%20(Lyrics).mp3" },
-      { title: "Kabisado", artist: "IV Of Spades", file: "IV%20Of%20Spades%20-%20Kabisado%20(Lyrics).mp3" },
-      { title: "Isa Lang", artist: "Arthur Nery", file: "Isa%20lang%20-%20Arthur%20Nery%20(Official%20Lyric%20Video).mp3" },
-      { title: "Dilaw (Janice)", artist: "Janice", file: "Janice%20-%20Dilaw%20(Lyrics).mp3" },
-      { title: "Palayo Sa Mundo", artist: "Jolianne, Arthur Nery", file: "Jolianne%2C%20Arthur%20Nery%20%20Palayo%20Sa%20Mundo%20(Official%20Lyric%20Video).mp3" },
-      { title: "Bahala Na", artist: "Kenaniah", file: "Kenaniah%20-%20Bahala%20Na%20(Official%20Lyric%20Video).mp3" },
-      { title: "Naiilang", artist: "Le John", file: "Le%20John%20-%20Naiilang%20(Official%20Lyric%20Video).mp3" },
-      { title: "Libu-Libong Buwan", artist: "Kyle Raphael", file: "Libu-Libong%20Buwan%20(Uuwian)%20-%20Kyle%20Raphael%20(Lyric%20Video).mp3" },
-      { title: "Raining in Manila", artist: "Lola Amour", file: "Lola%20Amour%20-%20Raining%20in%20Manila%20(Official%20Lyric%20Video).mp3" },
-      { title: "MOON (feat. Flow G)", artist: "Flow G", file: "MOON%20(feat.%20Flow%20G).mp3" },
-      { title: "Mahal Ba Kita", artist: "KD Estrada", file: "Mahal%20Ba%20Kita%20-%20KD%20Estrada%20(Lyrics)%20%20From%20Bola%20Bola%20OST.mp3" },
-      { title: "Kahel Na Langit", artist: "Maki", file: "Maki%20-%20kahel%20na%20langit%20(Lyrics).mp3" },
-      { title: "Misteryoso", artist: "Cup of Joe", file: "Misteryoso%20-%20Cup%20of%20Joe%20(Official%20Lyric%20Video).mp3" },
-      { title: "Multo", artist: "Cup of Joe", file: "Multo%20-%20Cup%20of%20Joe%20(Official%20Music%20Video).mp3" },
-      { title: "Telepono", artist: "One Click Straight", file: "ONE%20CLICK%20STRAIGHT%20-%20Telepono%20(Official%20Music%20Video)%20ft.%20Clara%20Benin.mp3" },
-      { title: "Palagi", artist: "TJ Monterde", file: "PALAGI%20-%20TJ%20Monterde%20%20OFFICIAL%20MUSIC%20VIDEO.mp3" },
-      { title: "Pagsamo", artist: "Arthur Nery", file: "Pagsamo%20-%20Arthur%20Nery%20(Official%20Lyric%20Visualizer).mp3" },
-      { title: "Pahina", artist: "Cup of Joe", file: "Pahina%20-%20Cup%20of%20Joe%20(Official%20Audio).mp3" },
-      { title: "Panaginip", artist: "nicole", file: "Panaginip%20-%20nicole%20(Lyrics).mp3" },
-      { title: "Miss Miss", artist: "Rob Deniel", file: "Rob%20Deniel%20-%20Miss%20Miss.mp3" },
-      { title: "DUNGKA!", artist: "SB19", file: "SB19%20'DUNGKA!'%20Lyric%20Video.mp3" },
-      { title: "Sa Bawat Sandali", artist: "Amiel Sol", file: "Sa%20Bawat%20Sandali%20-%20Amiel%20Sol%20(Official%20Music%20Video).mp3" },
-      { title: "Kalimutan Ka", artist: "Skusta Clee", file: "Skusta%20Clee%20-%20Kalimutan%20Ka%20(Official%20Music%20Video).mp3" },
-      { title: "Tahanan (Live)", artist: "El Manu", file: "Tahanan%20(Live%20at%20The%20Cozy%20Cove)%20-%20El%20Manu%2C%20Jessy%20Kang%2C%20Jason%20Marvin.mp3" },
-      { title: "Tibok", artist: "Earl Agustin", file: "Tibok%20-%20Earl%20Agustin%20(Official%20Music%20Video).mp3" },
-      { title: "Tingin", artist: "Cup of Joe & Janine", file: "Tingin%20by%20Cup%20of%20Joe%20and%20Janine%20Te%C3%B1oso%20(Lyrics).mp3" },
-      { title: "Wakas", artist: "Sunkissed Lola", file: "Wakas.mp3" },
-      { title: "Habang Buhay", artist: "Zack Tabudlo", file: "Zack%20Tabudlo%20-%20Habang%20Buhay%20(Lyric%20Video).mp3" },
-      { title: "Kalapastangan", artist: "fitterkarma", file: "fitterkarma%20-%20Kalapastangan%20(Lyrics).mp3" },
-      { title: "Paano na, Sinta", artist: "iluna, Frank Ely", file: "iluna%2C%20Frank%20Ely%20-%20Paano%20na%2C%20Sinta_%20(Lyric%20Video).mp3" },
+    // Full songs library - removed "Paano na, Sinta", added Gradio FM, Seawall, Are You OK, Broken
+    let songs = [
+      { title: "Uhaw (Tayong Lahat)", artist: "Dilaw", file: "%40Dilaw%20%20-%20Uhaw%20(Tayong%20Lahat)%20(Lyrics).mp3", category: "upbeat", base: baseURL_OPM },
+      { title: "Blink Twice", artist: "BINI", file: "BINI%20%20'Blink%20Twice'%20Official%20Music%20Video.mp3", category: "party", base: baseURL_OPM },
+      { title: "Bikini", artist: "BINI", file: "BINI%20Bikini%20Official%20Lyric%20Video.mp3", category: "party", base: baseURL_OPM },
+      { title: "Lifetime", artist: "Ben&Ben", file: "Ben%26Ben%20-%20Lifetime%20%20Official%20Lyric%20Video.mp3", category: "chill", base: baseURL_OPM },
+      { title: "Saranggola", artist: "Ben&Ben", file: "Ben%26Ben%20-%20Saranggola%20%20Official%20Lyric%20Video.mp3", category: "chill", base: baseURL_OPM },
+      { title: "Best Time", artist: "Brent Faiyaz", file: "Brent%20Faiyaz%20-%20Best%20Time%20(Lyrics).mp3", category: "chill", base: baseURL_OPM },
+      { title: "Dalangin", artist: "Earl Agustin", file: "Dalangin%20by%20Earl%20Agustin%20(Lyrics).mp3", category: "love", base: baseURL_OPM },
+      { title: "Bulong", artist: "December Avenue", file: "December%20Avenue%20-%20Bulong%20(Lyrics).mp3", category: "love", base: baseURL_OPM },
+      { title: "Saksi Ang Langit", artist: "December Avenue", file: "December%20Avenue%20-%20Saksi%20Ang%20Langit.mp3", category: "love", base: baseURL_OPM },
+      { title: "Maki", artist: "Dilaw", file: "Dilaw%20-%20Maki%20(Official%20Music%20Video).mp3", category: "upbeat", base: baseURL_OPM },
+      { title: "Marilag", artist: "Dionela", file: "Dionela%20-%20Marilag%20(Official%20Lyric%20Video).mp3", category: "love", base: baseURL_OPM },
+      { title: "Oksihina", artist: "Dionela", file: "Dionela%20-%20Oksihina%20(Lyrics).mp3", category: "upbeat", base: baseURL_OPM },
+      { title: "Sining", artist: "Dionela ft. Jay R", file: "Dionela%20-%20sining%20(Official%20Music%20Video)%20ft.%20Jay%20R.mp3", category: "love", base: baseURL_OPM },
+      { title: "Museo", artist: "Eliza Maturan", file: "Eliza%20Maturan%20-%20Museo%20(Official%20Lyric%20Video).mp3", category: "chill", base: baseURL_OPM },
+      { title: "Ginintuan Tanawin", artist: "Wilbert Ross", file: "Ginintuan%20Tanawin%20-%20Wilbert%20Ross%20(LYRICS)%20%20OPM%20Love%20Song%202025.mp3", category: "love", base: baseURL_OPM },
+      { title: "Halimaw", artist: "Gloc-9", file: "Gloc-9%20feat.%20Abaddon%2C%20Smugglaz%2C%20Hero%20-%20Halimaw%20(Official%20Lyric%20Video).mp3", category: "upbeat", base: baseURL_OPM },
+      { title: "My Day", artist: "HELLMERRY", file: "HELLMERRY%20-%20My%20Day%20(Lyrics).mp3", category: "party", base: baseURL_OPM },
+      { title: "Kabisado", artist: "IV Of Spades", file: "IV%20Of%20Spades%20-%20Kabisado%20(Lyrics).mp3", category: "upbeat", base: baseURL_OPM },
+      { title: "Isa Lang", artist: "Arthur Nery", file: "Isa%20lang%20-%20Arthur%20Nery%20(Official%20Lyric%20Video).mp3", category: "love", base: baseURL_OPM },
+      { title: "Dilaw (Janice)", artist: "Janice", file: "Janice%20-%20Dilaw%20(Lyrics).mp3", category: "chill", base: baseURL_OPM },
+      { title: "Palayo Sa Mundo", artist: "Jolianne, Arthur Nery", file: "Jolianne%2C%20Arthur%20Nery%20%20Palayo%20Sa%20Mundo%20(Official%20Lyric%20Video).mp3", category: "love", base: baseURL_OPM },
+      { title: "Bahala Na", artist: "Kenaniah", file: "Kenaniah%20-%20Bahala%20Na%20(Official%20Lyric%20Video).mp3", category: "chill", base: baseURL_OPM },
+      { title: "Naiilang", artist: "Le John", file: "Le%20John%20-%20Naiilang%20(Official%20Lyric%20Video).mp3", category: "love", base: baseURL_OPM },
+      { title: "Libu-Libong Buwan", artist: "Kyle Raphael", file: "Libu-Libong%20Buwan%20(Uuwian)%20-%20Kyle%20Raphael%20(Lyric%20Video).mp3", category: "love", base: baseURL_OPM },
+      { title: "Raining in Manila", artist: "Lola Amour", file: "Lola%20Amour%20-%20Raining%20in%20Manila%20(Official%20Lyric%20Video).mp3", category: "chill", base: baseURL_OPM },
+      { title: "MOON (feat. Flow G)", artist: "Flow G", file: "MOON%20(feat.%20Flow%20G).mp3", category: "party", base: baseURL_OPM },
+      { title: "Mahal Ba Kita", artist: "KD Estrada", file: "Mahal%20Ba%20Kita%20-%20KD%20Estrada%20(Lyrics)%20%20From%20Bola%20Bola%20OST.mp3", category: "love", base: baseURL_OPM },
+      { title: "Kahel Na Langit", artist: "Maki", file: "Maki%20-%20kahel%20na%20langit%20(Lyrics).mp3", category: "chill", base: baseURL_OPM },
+      { title: "Misteryoso", artist: "Cup of Joe", file: "Misteryoso%20-%20Cup%20of%20Joe%20(Official%20Lyric%20Video).mp3", category: "upbeat", base: baseURL_OPM },
+      { title: "Multo", artist: "Cup of Joe", file: "Multo%20-%20Cup%20of%20Joe%20(Official%20Music%20Video).mp3", category: "chill", base: baseURL_OPM },
+      { title: "Telepono", artist: "One Click Straight", file: "ONE%20CLICK%20STRAIGHT%20-%20Telepono%20(Official%20Music%20Video)%20ft.%20Clara%20Benin.mp3", category: "upbeat", base: baseURL_OPM },
+      { title: "Palagi", artist: "TJ Monterde", file: "PALAGI%20-%20TJ%20Monterde%20%20OFFICIAL%20MUSIC%20VIDEO.mp3", category: "love", base: baseURL_OPM },
+      { title: "Pagsamo", artist: "Arthur Nery", file: "Pagsamo%20-%20Arthur%20Nery%20(Official%20Lyric%20Visualizer).mp3", category: "love", base: baseURL_OPM },
+      { title: "Pahina", artist: "Cup of Joe", file: "Pahina%20-%20Cup%20of%20Joe%20(Official%20Audio).mp3", category: "chill", base: baseURL_OPM },
+      { title: "Panaginip", artist: "nicole", file: "Panaginip%20-%20nicole%20(Lyrics).mp3", category: "love", base: baseURL_OPM },
+      { title: "Miss Miss", artist: "Rob Deniel", file: "Rob%20Deniel%20-%20Miss%20Miss.mp3", category: "upbeat", base: baseURL_OPM },
+      { title: "DUNGKA!", artist: "SB19", file: "SB19%20'DUNGKA!'%20Lyric%20Video.mp3", category: "party", base: baseURL_OPM },
+      { title: "Sa Bawat Sandali", artist: "Amiel Sol", file: "Sa%20Bawat%20Sandali%20-%20Amiel%20Sol%20(Official%20Music%20Video).mp3", category: "love", base: baseURL_OPM },
+      { title: "Kalimutan Ka", artist: "Skusta Clee", file: "Skusta%20Clee%20-%20Kalimutan%20Ka%20(Official%20Music%20Video).mp3", category: "upbeat", base: baseURL_OPM },
+      { title: "Tahanan (Live)", artist: "El Manu", file: "Tahanan%20(Live%20at%20The%20Cozy%20Cove)%20-%20El%20Manu%2C%20Jessy%20Kang%2C%20Jason%20Marvin.mp3", category: "chill", base: baseURL_OPM },
+      { title: "Tibok", artist: "Earl Agustin", file: "Tibok%20-%20Earl%20Agustin%20(Official%20Music%20Video).mp3", category: "love", base: baseURL_OPM },
+      { title: "Tingin", artist: "Cup of Joe & Janine", file: "Tingin%20by%20Cup%20of%20Joe%20and%20Janine%20Te%C3%B1oso%20(Lyrics).mp3", category: "love", base: baseURL_OPM },
+      { title: "Wakas", artist: "Sunkissed Lola", file: "Wakas.mp3", category: "chill", base: baseURL_OPM },
+      { title: "Habang Buhay", artist: "Zack Tabudlo", file: "Zack%20Tabudlo%20-%20Habang%20Buhay%20(Lyric%20Video).mp3", category: "love", base: baseURL_OPM },
+      { title: "Kalapastangan", artist: "fitterkarma", file: "fitterkarma%20-%20Kalapastangan%20(Lyrics).mp3", category: "upbeat", base: baseURL_OPM },
+      // BLAYN & BANDETS tracks (all new)
+      { title: "Gradio FM", artist: "BLAYN & BANDETS", file: "Gradio%20FM.mp3", category: "upbeat", base: baseURL_BL },
+      { title: "Seawall", artist: "BLAYN & BANDETS", file: "track1-seawall.mp3", category: "chill", base: baseURL_BL },
+      { title: "Are You OK", artist: "BLAYN & BANDETS", file: "track2-are-you-ok.mp3", category: "chill", base: baseURL_BL },
+      { title: "Broken", artist: "BLAYN & BANDETS", file: "track3-broken.mp3", category: "upbeat", base: baseURL_BL }
     ];
 
-    const getCoverArt = (seed) => `https://picsum.photos/id/${(seed % 150) + 10}/300/300`;
+    // Categories for mood browsing
+    const categories = [
+      { id: "all", name: "All Songs", emoji: "🎵" },
+      { id: "love", name: "Love Songs", emoji: "❤️" },
+      { id: "chill", name: "Chill Vibes", emoji: "🌊" },
+      { id: "upbeat", name: "Upbeat", emoji: "⚡" },
+      { id: "party", name: "Party Hits", emoji: "🎉" }
+    ];
 
+    let currentCategory = "all";
     let currentSongIndex = 0;
     let isPlaying = false;
     const audio = document.getElementById('audioPlayer');
 
-    const quickPickSongs = [
-      { title: "Sining", artist: "Dionela ft. Jay R", index: 12 },
-      { title: "Palagi", artist: "TJ Monterde", index: 31 },
-      { title: "Uhaw", artist: "Dilaw", index: 0 },
-      { title: "Raining in Manila", artist: "Lola Amour", index: 24 }
-    ];
+    // Updated Quick Picks: Remove "Uhaw" (index 0) and feature Gradio FM, Seawall, Are You OK, and Broken
+    const getQuickPickIndices = () => {
+      const gradioIdx = songs.findIndex(s => s.title === "Gradio FM");
+      const seawallIdx = songs.findIndex(s => s.title === "Seawall");
+      const areYouOkIdx = songs.findIndex(s => s.title === "Are You OK");
+      const brokenIdx = songs.findIndex(s => s.title === "Broken");
+      // Return valid indices, filtering out any -1
+      return [gradioIdx, seawallIdx, areYouOkIdx, brokenIdx].filter(idx => idx !== -1 && idx < songs.length);
+    };
+
+    const getCoverArt = (seed) => `https://picsum.photos/id/${(seed % 150) + 10}/300/300`;
+
+    function filterSongs() {
+      if (currentCategory === "all") return songs;
+      return songs.filter(song => song.category === currentCategory);
+    }
+
+    function renderCategoryChips() {
+      const container = document.getElementById('categoryChips');
+      if (!container) return;
+      container.innerHTML = categories.map(cat => `
+        <div onclick="setCategory('${cat.id}')" 
+             class="category-chip px-5 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-3xl text-sm font-medium cursor-pointer flex items-center gap-2 ${currentCategory === cat.id ? 'active' : ''}">
+          <span>${cat.emoji}</span>
+          <span>${cat.name}</span>
+        </div>
+      `).join('');
+    }
 
     function renderQuickPicks() {
       const container = document.getElementById('quickPicks');
-      container.innerHTML = quickPickSongs.map((pick, i) => {
-        const song = songs[pick.index];
-        const gradients = [
-          'from-emerald-900/40 to-teal-900/20',
-          'from-green-900/40 to-emerald-900/20',
-          'from-teal-900/40 to-cyan-900/20',
-          'from-green-800/30 to-teal-900/20',
-        ];
+      if (!container) return;
+      const quickIndices = getQuickPickIndices();
+      if (quickIndices.length === 0) {
+        container.innerHTML = '<div class="col-span-2 text-center text-zinc-500 py-4">No picks available</div>';
+        return;
+      }
+      const gradients = ['from-emerald-900/40 to-teal-900/20', 'from-green-900/40 to-emerald-900/20', 'from-teal-900/40 to-cyan-900/20', 'from-green-800/30 to-teal-900/20'];
+      container.innerHTML = quickIndices.map((idx, i) => {
+        const song = songs[idx];
+        if (!song) return '';
         return `
-          <div onclick="playSong(${pick.index})" class="quick-pick-card p-3 flex items-center gap-3 cursor-pointer">
-            <div class="w-11 h-11 rounded-xl bg-gradient-to-br ${gradients[i]} flex items-center justify-center flex-shrink-0 border border-white/05">
+          <div onclick="playSong(${idx})" class="quick-pick-card p-3 flex items-center gap-3 cursor-pointer bg-white/5 rounded-xl hover:bg-white/10 transition">
+            <div class="w-11 h-11 rounded-xl bg-gradient-to-br ${gradients[i % gradients.length]} flex items-center justify-center flex-shrink-0 border border-white/10">
               <i class="fas fa-play text-emerald-400 text-[11px] ml-0.5"></i>
             </div>
             <div class="flex-1 min-w-0">
-              <p class="font-semibold text-[13px] truncate leading-tight">${song.title}</p>
-              <p class="text-[11px] text-emerald-300/60 truncate mt-0.5">${song.artist}</p>
+              <p class="font-semibold text-[13px] truncate leading-tight">${escapeHtml(song.title)}</p>
+              <p class="text-[11px] text-emerald-300/60 truncate mt-0.5">${escapeHtml(song.artist)}</p>
             </div>
-            <i class="fas fa-chevron-right text-[10px] text-zinc-600 flex-shrink-0"></i>
           </div>
         `;
       }).join('');
     }
 
-    function renderAllSongs() {
+    function escapeHtml(str) {
+      if (!str) return '';
+      return str.replace(/[&<>]/g, function(m) {
+        if (m === '&') return '&amp;';
+        if (m === '<') return '&lt;';
+        if (m === '>') return '&gt;';
+        return m;
+      });
+    }
+
+    function renderSongs() {
+      const filtered = filterSongs();
       const container = document.getElementById('allSongs');
-      container.innerHTML = songs.map((song, idx) => `
-        <div onclick="playSong(${idx})" class="snap-start flex-shrink-0 w-[148px] cursor-pointer song-card">
-          <div class="album-wrapper">
-            <img src="${getCoverArt(idx)}" class="w-[148px] h-[148px] object-cover" alt="${song.title}">
+      if (!container) return;
+      container.innerHTML = filtered.map((song, i) => {
+        const originalIndex = songs.indexOf(song);
+        return `
+          <div onclick="playSong(${originalIndex})" class="snap-start flex-shrink-0 w-[148px] cursor-pointer song-card">
+            <div class="album-wrapper">
+              <img src="${getCoverArt(originalIndex)}" class="w-[148px] h-[148px] object-cover" alt="${escapeHtml(song.title)}">
+            </div>
+            <div class="mt-2.5 px-0.5">
+              <p class="font-semibold text-[13px] leading-tight line-clamp-2">${escapeHtml(song.title)}</p>
+              <p class="text-[11px] text-zinc-500 mt-1 flex items-center gap-1 truncate">
+                <i class="fas fa-user text-[8px] text-emerald-600/70"></i> ${escapeHtml(song.artist)}
+              </p>
+            </div>
           </div>
-          <div class="mt-2.5 px-0.5">
-            <p class="font-semibold text-[13px] leading-tight line-clamp-2">${song.title}</p>
-            <p class="text-[11px] text-zinc-500 mt-1 flex items-center gap-1 truncate">
-              <i class="fas fa-user text-[8px] text-emerald-600/70"></i> ${song.artist}
-            </p>
-          </div>
-        </div>
-      `).join('');
+        `;
+      }).join('');
+
+      const trackCountSpan = document.getElementById('trackCount');
+      if (trackCountSpan) trackCountSpan.textContent = `${filtered.length} tracks`;
+      const totalTrackSpan = document.getElementById('totalTrackCount');
+      if (totalTrackSpan) totalTrackSpan.textContent = `${songs.length}`;
+    }
+
+    function setCategory(catId) {
+      currentCategory = catId;
+      const categoryName = categories.find(c => c.id === catId)?.name || "All Songs";
+      const titleEl = document.getElementById('currentCategoryTitle');
+      if (titleEl) titleEl.textContent = categoryName;
+      renderCategoryChips();
+      renderSongs();
     }
 
     function updatePlayerUI() {
+      if (!songs[currentSongIndex]) return;
       const song = songs[currentSongIndex];
-      document.getElementById('playerTitle').textContent = song.title;
-      document.getElementById('playerArtist').innerHTML =
-        `<i class="fas fa-microphone-alt text-[9px] text-emerald-500"></i><span>${song.artist}</span>`;
-      document.getElementById('playerCover').src = getCoverArt(currentSongIndex);
+      const titleEl = document.getElementById('playerTitle');
+      const artistEl = document.getElementById('playerArtist');
+      const coverEl = document.getElementById('playerCover');
+      if (titleEl) titleEl.textContent = song.title;
+      if (artistEl) artistEl.innerHTML = `<i class="fas fa-microphone-alt text-[9px] text-emerald-500"></i><span>${escapeHtml(song.artist)}</span>`;
+      if (coverEl) coverEl.src = getCoverArt(currentSongIndex);
+      
       const icon = document.querySelector('#playBtn i');
       if (icon) icon.className = isPlaying ? 'fas fa-pause text-base' : 'fas fa-play text-base ml-0.5';
-      // glow ring
-      const cover = document.getElementById('playerCover');
-      if (isPlaying) cover.classList.add('playing');
-      else cover.classList.remove('playing');
+      
+      if (coverEl) {
+        if (isPlaying) coverEl.classList.add('playing');
+        else coverEl.classList.remove('playing');
+      }
     }
 
     function playSong(index) {
+      if (index < 0 || index >= songs.length) {
+        console.warn("Invalid index", index);
+        return;
+      }
       if (index === currentSongIndex && audio.src && !audio.paused) return;
       currentSongIndex = index;
-      audio.src = baseURL + songs[index].file;
+      const song = songs[index];
+      if (!song || !song.base || !song.file) {
+        console.warn("Invalid song data", song);
+        return;
+      }
+      const fullUrl = song.base + song.file;
+      audio.src = fullUrl;
       audio.load();
-      audio.play().then(() => { isPlaying = true; updatePlayerUI(); })
-        .catch(err => { console.warn("Playback error:", err); isPlaying = false; updatePlayerUI(); });
+      audio.play().then(() => {
+        isPlaying = true;
+        updatePlayerUI();
+      }).catch(err => {
+        console.warn("Playback error:", err);
+        isPlaying = false;
+        updatePlayerUI();
+      });
     }
 
     function togglePlay() {
-      if (!audio.src) { playSong(0); return; }
-      if (isPlaying) { audio.pause(); isPlaying = false; }
-      else { audio.play().catch(() => playSong(currentSongIndex)); isPlaying = true; }
+      if (!audio.src || !songs[currentSongIndex]) {
+        const firstValid = getQuickPickIndices()[0] !== undefined ? getQuickPickIndices()[0] : 0;
+        playSong(firstValid);
+        return;
+      }
+      if (isPlaying) {
+        audio.pause();
+        isPlaying = false;
+      } else {
+        audio.play().catch(() => playSong(currentSongIndex));
+        isPlaying = true;
+      }
       updatePlayerUI();
     }
 
-    function nextSong() { currentSongIndex = (currentSongIndex + 1) % songs.length; playSong(currentSongIndex); }
-    function prevSong() { currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length; playSong(currentSongIndex); }
+    function nextSong() {
+      if (songs.length === 0) return;
+      currentSongIndex = (currentSongIndex + 1) % songs.length;
+      playSong(currentSongIndex);
+    }
+
+    function prevSong() {
+      if (songs.length === 0) return;
+      currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
+      playSong(currentSongIndex);
+    }
 
     audio.addEventListener('timeupdate', () => {
       if (audio.duration && !isNaN(audio.duration)) {
         const pct = (audio.currentTime / audio.duration) * 100;
-        document.getElementById('progressBar').style.width = `${pct}%`;
-        document.getElementById('currentTime').textContent = fmt(audio.currentTime);
-        document.getElementById('duration').textContent = fmt(audio.duration);
+        const progressBar = document.getElementById('progressBar');
+        if (progressBar) progressBar.style.width = `${pct}%`;
+        const currentSpan = document.getElementById('currentTime');
+        const durationSpan = document.getElementById('duration');
+        if (currentSpan) currentSpan.textContent = fmt(audio.currentTime);
+        if (durationSpan) durationSpan.textContent = fmt(audio.duration);
       }
     });
-    audio.addEventListener('loadedmetadata', () => { document.getElementById('duration').textContent = fmt(audio.duration); });
+
+    audio.addEventListener('loadedmetadata', () => {
+      const durationSpan = document.getElementById('duration');
+      if (durationSpan) durationSpan.textContent = fmt(audio.duration);
+    });
+
     audio.addEventListener('ended', nextSong);
     audio.addEventListener('play', () => { isPlaying = true; updatePlayerUI(); });
     audio.addEventListener('pause', () => { isPlaying = false; updatePlayerUI(); });
+    audio.addEventListener('error', (e) => {
+      console.warn("Audio error, trying next song");
+      nextSong();
+    });
 
     function seek(e) {
       if (!audio.duration) return;
@@ -606,22 +664,33 @@
     }
 
     function fmt(s) {
-      if (isNaN(s)) return "0:00";
+      if (isNaN(s) || !isFinite(s)) return "0:00";
       const m = Math.floor(s / 60), sec = Math.floor(s % 60);
       return `${m}:${sec < 10 ? '0' : ''}${sec}`;
     }
 
+    // Initialize app
+    renderCategoryChips();
     renderQuickPicks();
-    renderAllSongs();
+    renderSongs();
 
+    // Set initial player to first quick pick
+    const initPick = getQuickPickIndices()[0];
+    if (initPick !== undefined && songs[initPick]) {
+      currentSongIndex = initPick;
+      updatePlayerUI();
+    }
+
+    // Attach global functions
     window.playSong = playSong;
     window.togglePlay = togglePlay;
     window.nextSong = nextSong;
     window.prevSong = prevSong;
     window.seek = seek;
+    window.setCategory = setCategory;
 
-    document.body.addEventListener('touchstart', () => {}, { passive: true });
-    console.log("OPM 2025 — glassmorphism edition loaded");
+    console.log("MUSIFY fully updated: Quick Picks now feature Gradio FM, Seawall, Are You OK, Broken (Uhaw removed)");
   </script>
 </body>
 </html>
+```
